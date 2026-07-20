@@ -28,7 +28,7 @@ Use a fresh `browser.newContext()` per scenario — the app saves to session/loc
 
 ## Flows worth driving
 
-- Boarding → `#beginBtn` → walk legs with `#nextBtn` (7 clicks reaches the landing card). At landing, `#hudTime` must read `Landed` and `#progressTrack.value` must be 7.
+- Boarding → `#beginBtn` → walk legs with `#nextBtn` (7 clicks reaches the landing card). At landing, `#timeBtn` must be display:none (check computed style, not just the `hidden` property — author CSS can defeat the attribute) and all `#waypoints .wp` dots must have class `done`. During flight the moon arc shows instead of a countdown; tapping `#timeBtn` reveals text for 4s. Waypoint dots for visited legs are clickable jumps; future legs are disabled.
 - Theme: `#themeBtn` toggles `html.light`, updates `meta[name=theme-color]`, persists via `localStorage['nightFlight.theme.v1']`. No stored key → follows `prefers-color-scheme`.
 - Resume: fill `#mentalDump`, wait ≥600ms (debounced save), reload → `#resumeBox.show`, `#resumeBtn` restores step + text.
 - Emulate `colorScheme: 'light'`, `reducedMotion: 'reduce'`, and a 390×844 `isMobile` context; check `document.documentElement.scrollWidth - clientWidth === 0` for overflow.

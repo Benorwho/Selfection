@@ -108,7 +108,20 @@ html.light #stars{display:none}
 html.light .cloud{background:radial-gradient(ellipse at center,#453f30 0%,transparent 68%);opacity:.05}
 @keyframes twinkle{0%,100%{opacity:.18}50%{opacity:.82}}
 @keyframes drift{from{transform:translateX(-38vw)}to{transform:translateX(138vw)}}
-body.low-power .star,body.low-power .cloud{animation-play-state:paused}
+.ridge{position:fixed;left:0;bottom:0;width:calc(100% + 1200px);z-index:-2;pointer-events:none;background:var(--ridge);-webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;-webkit-mask-position:bottom;mask-position:bottom;-webkit-mask-size:1200px 100%;mask-size:1200px 100%}
+.ridge-far{height:24vh;--ridge:var(--ridge-far-color);-webkit-mask-image:var(--ridge-far-mask);mask-image:var(--ridge-far-mask);animation:ridgeDrift 280s linear infinite}
+.ridge-near{height:16vh;--ridge:var(--ridge-near-color);-webkit-mask-image:var(--ridge-near-mask);mask-image:var(--ridge-near-mask);animation:ridgeDrift 170s linear infinite}
+:root{
+  --ridge-far-color:rgba(7,9,15,.5);
+  --ridge-near-color:rgba(4,5,10,.72);
+  --ridge-far-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='220'%3E%3Cpath d='M0 150 Q150 105 300 135 T600 120 T900 145 T1200 150 L1200 220 L0 220 Z' fill='%23000'/%3E%3C/svg%3E");
+  --ridge-near-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='220'%3E%3Cpath d='M0 175 Q200 140 420 165 T780 155 T1200 175 L1200 220 L0 220 Z' fill='%23000'/%3E%3C/svg%3E");
+}
+html.light{--ridge-far-color:rgba(64,58,44,.09);--ridge-near-color:rgba(64,58,44,.14)}
+@keyframes ridgeDrift{to{transform:translateX(-1200px)}}
+.shoot{position:fixed;z-index:-3;width:92px;height:1px;opacity:0;pointer-events:none;background:linear-gradient(90deg,rgba(244,240,230,.65),transparent);animation:shoot 1.2s ease-out forwards}
+@keyframes shoot{0%{opacity:0;transform:rotate(26deg) translateX(0)}12%{opacity:.55}100%{opacity:0;transform:rotate(26deg) translateX(34vw)}}
+body.low-power .star,body.low-power .cloud,body.low-power .ridge{animation-play-state:paused}
 body.low-power .cloud{display:none}
 
 /* Header */
@@ -117,17 +130,37 @@ body.low-power .cloud{display:none}
 .hud-route{color:var(--muted)}
 .hud-phase{text-align:center;color:var(--clay-deep)}
 .hud-time{text-align:right;color:var(--text)}
-.progress-native{appearance:none;display:block;width:100%;max-width:1120px;height:2px;margin:13px auto 0;border:0;border-radius:999px;overflow:hidden;background:var(--line);color:var(--clay)}
-.progress-native::-webkit-progress-bar{background:var(--line)}
-.progress-native::-webkit-progress-value{background:var(--clay);transition:width .5s ease}
-.progress-native::-moz-progress-bar{background:var(--clay)}
+.time-btn{display:inline-flex;align-items:center;justify-content:flex-end;gap:8px;min-height:0;padding:2px 0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
+.time-btn[hidden]{display:none}
+.moon-arc{display:none;width:64px;height:18px;overflow:visible}
+.moon-arc .arc-line{fill:none;stroke:var(--line-strong);stroke-width:1;stroke-dasharray:2 4}
+.moon-arc .moon{fill:var(--text);opacity:.9;transition:cx 1s linear,cy 1s linear}
+.time-btn.flying .moon-arc{display:block}
+.time-btn.flying .time-text{display:none}
+.time-btn.flying.reveal .moon-arc{display:none}
+.time-btn.flying.reveal .time-text{display:inline}
+.waypoints{display:flex;gap:12px;justify-content:center;max-width:1120px;margin:11px auto 0}
+.wp{display:grid;place-items:center;width:22px;height:22px;min-height:0;padding:0;border:0;background:none;cursor:pointer}
+.wp::before{content:"";width:9px;height:9px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;transition:background .4s ease,border-color .4s ease,transform .4s ease}
+.wp.done::before{background:var(--clay);border-color:var(--clay);animation:wpSettle .6s cubic-bezier(.22,1,.36,1)}
+.wp.current::before{border-color:var(--clay);transform:scale(1.35)}
+.wp:disabled{cursor:default}
+.wp:not(:disabled):hover::before{border-color:var(--clay)}
+@keyframes wpSettle{0%{transform:scale(1.3)}100%{transform:scale(1)}}
 
 /* App layout */
 .app{min-height:100vh;min-height:var(--app-height,100dvh)}
 .panel{min-height:100vh;min-height:var(--app-height,100dvh);padding:118px max(20px,env(safe-area-inset-right)) calc(120px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));display:block}
 .js .panel{display:none}
-.js .panel.active{display:flex;align-items:center;animation:panelIn .45s ease both}
-@keyframes panelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.js .panel.active{display:flex;align-items:center;animation:panelIn .5s ease both}
+@keyframes panelIn{from{opacity:0}to{opacity:1}}
+.js .panel.active .panel-inner>*{animation:rise .6s cubic-bezier(.22,1,.36,1) both}
+.js .panel.active .panel-inner>:nth-child(2){animation-delay:.07s}
+.js .panel.active .panel-inner>:nth-child(3){animation-delay:.14s}
+.js .panel.active .panel-inner>:nth-child(4){animation-delay:.22s}
+.js .panel.active .panel-inner>:nth-child(5){animation-delay:.3s}
+.js .panel.active .panel-inner>:nth-child(n+6){animation-delay:.38s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .panel-inner{width:min(780px,100%);margin:auto}
 .panel-inner.wide{width:min(960px,100%)}
 .eyebrow{display:flex;flex-wrap:wrap;gap:10px 18px;margin:0 0 16px;color:var(--clay);font:500 13px/1.5 var(--body);letter-spacing:.1em}
@@ -158,8 +191,9 @@ h2 em,h3 em{color:inherit}
 .field-group{margin-top:30px}
 .field-group:first-child{margin-top:0}
 textarea,input[type="text"],input[type="date"],select{
-  width:100%;min-height:48px;border:1px solid var(--line-strong);border-radius:10px;background:var(--field);color:var(--text);padding:13px 15px;font-size:16px;caret-color:var(--clay)
+  width:100%;min-height:48px;border:1px solid var(--line-strong);border-radius:10px;background:var(--field);color:var(--text);padding:13px 15px;font-size:16px;caret-color:var(--clay);transition:border-color .35s ease
 }
+textarea:focus,input[type="text"]:focus,input[type="date"]:focus,select:focus{border-color:var(--clay)}
 textarea{min-height:118px;resize:vertical;line-height:1.55;-webkit-overflow-scrolling:touch}
 textarea.large{min-height:210px}
 textarea::placeholder,input::placeholder{color:var(--placeholder)}
@@ -168,10 +202,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .choice{position:relative;display:block}
 .choice input{position:absolute;opacity:0;pointer-events:none}
-.choice span{display:flex;min-height:82px;height:100%;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);flex-direction:column;justify-content:center;gap:3px;cursor:pointer;transition:.2s ease}
+.choice span{display:flex;min-height:82px;height:100%;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);flex-direction:column;justify-content:center;gap:3px;cursor:pointer;transition:border-color .3s ease,background .3s ease}
 .choice strong{font:500 14px/1.35 var(--body);color:var(--text)}
 .choice small{font-size:12px;color:var(--muted)}
-.choice input:checked+span{border-color:var(--clay);background:var(--clay-tint)}
+.choice input:checked+span{border-color:var(--clay);background:var(--clay-tint);animation:settleIn .3s ease-out}
+@keyframes settleIn{from{transform:scale(.985)}to{transform:none}}
 .choice input:focus-visible+span{outline:3px solid var(--clay-deep);outline-offset:3px}
 .state-row{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
 .state-row+.state-row{margin-top:20px}
@@ -233,7 +268,16 @@ details.evidence summary{display:inline-block;color:var(--text-soft);cursor:poin
 details.evidence p{margin:10px 0 0;max-width:68ch}
 .confidence-note{display:none;margin-top:10px;color:var(--clay-deep);font-size:13px}
 .confidence-note.show{display:block}
-.landing-card{padding:clamp(22px,5vw,36px);border:1px solid var(--clay-line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.landing-card{position:relative;padding:clamp(22px,5vw,36px);border:1px solid var(--clay-line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.landing-card .landing-item{animation:rise .5s cubic-bezier(.22,1,.36,1) both}
+.landing-card .landing-item:nth-child(2){animation-delay:.06s}
+.landing-card .landing-item:nth-child(3){animation-delay:.12s}
+.landing-card .landing-item:nth-child(4){animation-delay:.18s}
+.landing-card .landing-item:nth-child(5){animation-delay:.24s}
+.landing-card .landing-item:nth-child(6){animation-delay:.3s}
+.landing-card .landing-item:nth-child(n+7){animation-delay:.36s}
+.stamp-mark{position:absolute;right:clamp(16px,4vw,30px);bottom:clamp(14px,3vw,24px);padding:5px 12px;border:2px solid var(--clay);border-radius:6px;color:var(--clay);font:600 11px/1.2 var(--mono);letter-spacing:.18em;text-transform:uppercase;transform:rotate(-6deg);opacity:.85;animation:stampIn .45s cubic-bezier(.22,1,.36,1) .55s both}
+@keyframes stampIn{from{opacity:0;transform:rotate(-6deg) scale(1.5)}to{opacity:.85;transform:rotate(-6deg) scale(1)}}
 .landing-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}
 .landing-head .stamp{color:var(--clay);font:500 10px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;text-align:right}
 .landing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
@@ -260,6 +304,10 @@ body.keyboard-open .panel{padding-top:calc(18px + env(safe-area-inset-top));padd
 dialog{width:min(590px,calc(100% - 28px));border:1px solid var(--line-strong);border-radius:16px;background:var(--surface);color:var(--text);padding:0;box-shadow:0 24px 80px rgba(0,0,0,.35)}
 dialog::backdrop{background:var(--backdrop)}
 .dialog-inner{padding:28px}
+.breath{display:grid;place-items:center;width:120px;height:120px;margin:18px auto 4px}
+.breath-core{width:62px;height:62px;border-radius:50%;border:1px solid var(--clay);background:var(--clay-tint);animation:breathe 10s ease-in-out infinite}
+@keyframes breathe{0%{transform:scale(1)}40%{transform:scale(1.5)}52%{transform:scale(1.5)}100%{transform:scale(1)}}
+.breath-hint{margin:0 0 4px;text-align:center;color:var(--muted);font-size:12px}
 .ground-list{margin:18px 0;padding-left:22px;color:var(--text-soft)}
 .ground-list li+li{margin-top:7px}
 
@@ -317,7 +365,7 @@ dialog::backdrop{background:var(--backdrop)}
 @media print{
   body{background:#fff;color:#111}
   body::after{display:none}
-  .sky,#stars,.cloud,.hud,.nav,.utilities,.save-state,.panel:not(#landing),.export-actions,.post-check,details{display:none!important}
+  .sky,#stars,.cloud,.ridge,.shoot,.hud,.nav,.utilities,.save-state,.panel:not(#landing),.export-actions,.post-check,details{display:none!important}
   .js #landing.panel{display:block!important;padding:20px;min-height:auto}
   .landing-card{box-shadow:none;background:#fff;color:#111;border:1px solid #333}
   .landing-value,.landing-label,h2,.why{color:#111}
@@ -332,14 +380,21 @@ dialog::backdrop{background:var(--backdrop)}
 <div class="sky" id="sky-predawn"></div>
 <div class="sky" id="sky-dawn"></div>
 <div id="stars" aria-hidden="true"></div>
+<div class="ridge ridge-far" aria-hidden="true"></div>
+<div class="ridge ridge-near" aria-hidden="true"></div>
 
 <header class="hud" aria-label="Session progress">
   <div class="hud-row">
     <div class="hud-route">Night Flight · Private cabin</div>
     <div class="hud-phase" id="hudPhase">Boarding</div>
-    <div class="hud-time"><span class="sr-only">Time remaining: </span><span id="hudTime">Not started</span></div>
+    <div class="hud-time">
+      <button class="time-btn" id="timeBtn" type="button" aria-label="Session time: not started">
+        <svg class="moon-arc" viewBox="0 0 64 18" aria-hidden="true"><path class="arc-line" d="M2 16 Q32 -6 62 16"/><circle class="moon" id="moonDot" cx="2" cy="16" r="3.2"/></svg>
+        <span class="time-text" id="hudTime">Not started</span>
+      </button>
+    </div>
   </div>
-  <progress class="progress-native" aria-label="Journey progress" max="7" value="0" id="progressTrack">0 of 7</progress>
+  <div class="waypoints" id="waypoints" aria-label="Journey legs"></div>
 </header>
 
 <div class="save-state" id="saveState" aria-live="polite">Temporary session</div>
@@ -627,6 +682,8 @@ dialog::backdrop{background:var(--backdrop)}
   <div class="dialog-inner">
     <div class="eyebrow"><span>Pause the flight</span></div>
     <h3 id="groundTitle">Come back to the <em>cabin</em></h3>
+    <div class="breath" aria-hidden="true"><span class="breath-core"></span></div>
+    <p class="breath-hint" aria-hidden="true">Breathe with the circle · in as it grows, out as it settles</p>
     <ol class="ground-list">
       <li>Put both feet on the floor and feel the support underneath you.</li>
       <li>Name five things you can see, four you can feel and three you can hear.</li>
@@ -653,8 +710,11 @@ dialog::backdrop{background:var(--backdrop)}
     '120':[10,18,15,20,15,22,15]
   };
   let currentStep=0;
+  let maxStepReached=0;
   let startedAt=null;
   let timerId=null;
+  let timeRevealId=null;
+  let inkTimer=null;
   let rungCount=0;
   let saveTimer=null;
   let storageMode='session';
@@ -716,14 +776,12 @@ dialog::backdrop{background:var(--backdrop)}
     $$('.sky').forEach(sky=>sky.classList.toggle('on',sky.id===active.dataset.sky));
     $('#stars').style.opacity=active.dataset.sky==='sky-night'?'1':active.dataset.sky==='sky-dawn'?'.2':'.55';
     $('#hudPhase').textContent=phases[currentStep];
-    const completedLegs=Math.max(0,Math.min(TOTAL_CORE_STEPS,currentStep-1));
-    const inFlight=currentStep>=1&&currentStep<=TOTAL_CORE_STEPS;
-    $('#progressTrack').value=Math.min(TOTAL_CORE_STEPS,completedLegs+(inFlight?.5:0));
-    $('#progressTrack').textContent=completedLegs+' of '+TOTAL_CORE_STEPS;
+    maxStepReached=Math.max(maxStepReached,currentStep);
+    renderWaypoints();
     $('#nav').hidden=currentStep===0||currentStep===8;
     $('#utilities').hidden=false;
-    if(currentStep===8){clearInterval(timerId);timerId=null;$('#hudTime').textContent='Landed'}
-    else if(startedAt&&!timerId)startTimer();
+    if(currentStep===8){clearInterval(timerId);timerId=null;$('#timeBtn').hidden=true}
+    else{$('#timeBtn').hidden=false;if(startedAt&&!timerId)startTimer()}
     $('#backBtn').disabled=currentStep<=1;
     $('#nextBtn').textContent=currentStep===7?'Create Landing Card':'Continue';
     $('#navStep').textContent=currentStep<=7?'Leg '+currentStep+' of 7':'Arrival';
@@ -744,13 +802,64 @@ dialog::backdrop{background:var(--backdrop)}
   }
 
   function updateTimer(){
-    if(!startedAt){$('#hudTime').textContent='Not started';return}
+    const btn=$('#timeBtn');
+    if(!startedAt){$('#hudTime').textContent='Not started';btn.classList.remove('flying','reveal');btn.setAttribute('aria-label','Session time: not started');return}
+    btn.classList.add('flying');
     const total=selectedDuration()*60;
     const elapsed=Math.floor((Date.now()-startedAt)/1000);
     const remaining=Math.max(0,total-elapsed);
-    const mins=Math.floor(remaining/60);
-    const secs=String(remaining%60).padStart(2,'0');
-    $('#hudTime').textContent=remaining>0?mins+':'+secs+' remaining':'Time complete';
+    const f=Math.min(1,elapsed/total);
+    const moon=$('#moonDot');
+    moon.setAttribute('cx',(2+60*f).toFixed(1));
+    moon.setAttribute('cy',(16-11*Math.sin(Math.PI*f)).toFixed(1));
+    const label=remaining>0?Math.ceil(remaining/60)+' min remaining':'Time complete';
+    $('#hudTime').textContent=label;
+    btn.setAttribute('aria-label','Session time: '+label+'. Activate to show as text.');
+  }
+
+  function buildWaypoints(){
+    const wrap=$('#waypoints');
+    for(let leg=1;leg<=TOTAL_CORE_STEPS;leg++){
+      const dot=document.createElement('button');
+      dot.type='button';dot.className='wp';dot.dataset.leg=String(leg);
+      dot.addEventListener('click',()=>{if(!dot.disabled)showStep(Number(dot.dataset.leg))});
+      wrap.appendChild(dot);
+    }
+  }
+
+  function renderWaypoints(){
+    $$('#waypoints .wp').forEach(dot=>{
+      const leg=Number(dot.dataset.leg);
+      const done=currentStep>leg;
+      dot.classList.toggle('done',done);
+      dot.classList.toggle('current',currentStep===leg);
+      dot.disabled=leg>maxStepReached;
+      const state=done?' (completed)':currentStep===leg?' (current)':leg>maxStepReached?' (not yet reached)':'';
+      dot.setAttribute('aria-label','Leg '+leg+': '+phases[leg]+state);
+      if(currentStep===leg)dot.setAttribute('aria-current','step');else dot.removeAttribute('aria-current');
+    });
+  }
+
+  function scheduleShootingStar(){
+    setTimeout(()=>{spawnShootingStar();scheduleShootingStar()},90000+Math.random()*120000);
+  }
+
+  function spawnShootingStar(){
+    if(document.hidden||document.documentElement.classList.contains('light')||document.body.classList.contains('low-power'))return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const streak=document.createElement('span');
+    streak.className='shoot';
+    streak.style.left=(8+Math.random()*60)+'vw';
+    streak.style.top=(6+Math.random()*30)+'vh';
+    streak.addEventListener('animationend',()=>streak.remove());
+    document.body.appendChild(streak);
+    setTimeout(()=>{if(streak.isConnected)streak.remove()},3000);
+  }
+
+  function brightenStars(){
+    if(currentStep!==1)return;
+    const words=val('mentalDump').split(/\s+/).filter(Boolean).length;
+    $('#stars').style.opacity=String(Math.min(1,.55+Math.min(.45,words/160)));
   }
 
   function updateEstimates(){
@@ -804,11 +913,11 @@ dialog::backdrop{background:var(--backdrop)}
     return {label,items:completed};
   }
 
-  function setSignal(path){
+  function setSignal(path,save=true){
     $('#signalPath').value=path;
     $$('.signal-tab').forEach(tab=>tab.setAttribute('aria-selected',String(tab.dataset.signal===path)));
     $$('.signal-pane').forEach(pane=>{const active=pane.id===path+'Pane';pane.classList.toggle('active',active);pane.hidden=!active});
-    scheduleSave();
+    if(save)scheduleSave();
   }
 
   function updateDepthNote(){
@@ -843,12 +952,12 @@ dialog::backdrop{background:var(--backdrop)}
       if(el.type==='range')setRangeOutput(el);
     });
     storageMode=getRadio('storage')||'session';
-    setSignal(fields.signalPath||'envy');
+    setSignal(fields.signalPath||'envy',false);
     updateEstimates();updateDepthNote();computeNeed();updateConfidence();updateClosingNotice();
   }
 
   function sessionState(){
-    return {version:VERSION,currentStep,startedAt,storageMode:getRadio('storage')||storageMode,fields:serializeFields(),rungs:rungValues(),savedAt:Date.now()};
+    return {version:VERSION,currentStep,maxStep:maxStepReached,startedAt,storageMode:getRadio('storage')||storageMode,fields:serializeFields(),rungs:rungValues(),savedAt:Date.now()};
   }
 
   function scheduleSave(){
@@ -885,6 +994,7 @@ dialog::backdrop{background:var(--backdrop)}
   function restoreState(state,goToSavedStep=false){
     if(!state)return;
     startedAt=state.startedAt||null;
+    maxStepReached=Math.max(maxStepReached,state.maxStep||state.currentStep||0);
     applyFields(state.fields||{});
     $('#rungs').innerHTML='';rungCount=0;
     (state.rungs?.length?state.rungs:['']).forEach(value=>addRung(value,false));
@@ -968,7 +1078,7 @@ dialog::backdrop{background:var(--backdrop)}
     const d=landingData();
     const item=(label,value,full=false)=>'<div class="landing-item'+(full?' full':'')+'"><div class="landing-label">'+esc(label)+'</div><div class="landing-value">'+esc(value)+'</div></div>';
     $('#landingCard').innerHTML='<div class="landing-head"><h3>Flight <em>YOU 002</em></h3><div class="stamp">'+esc(d.date)+'<br>Private reflection</div></div><div class="landing-grid">'+
-      item('What I explored',d.focus,true)+item('Working hypothesis',d.hypothesis,true)+item('Evidence',d.evidence)+item('Another explanation',d.alternative)+item('Need worth exploring',d.need+'\n'+d.needContext,true)+item('Difficult signal',d.difficultSignal,true)+item('Boundary within my control',d.boundary,true)+item('Seven day experiment',d.ifThen,true)+item('Minimum version',d.minimum)+item('Fallback',d.fallback)+item('Confidence',d.confidence)+item('Support I can use',d.support)+item('Note to my seven day self',d.note,true)+item('State check',d.state,true)+'</div>';
+      item('What I explored',d.focus,true)+item('Working hypothesis',d.hypothesis,true)+item('Evidence',d.evidence)+item('Another explanation',d.alternative)+item('Need worth exploring',d.need+'\n'+d.needContext,true)+item('Difficult signal',d.difficultSignal,true)+item('Boundary within my control',d.boundary,true)+item('Seven day experiment',d.ifThen,true)+item('Minimum version',d.minimum)+item('Fallback',d.fallback)+item('Confidence',d.confidence)+item('Support I can use',d.support)+item('Note to my seven day self',d.note,true)+item('State check',d.state,true)+'</div><div class="stamp-mark" aria-hidden="true">Landed</div>';
     $('#fullLog').textContent=fullLogText();
   }
 
@@ -1053,6 +1163,17 @@ dialog::backdrop{background:var(--backdrop)}
     $('#powerBtn').addEventListener('click',()=>{document.body.classList.toggle('low-power');$('#powerBtn').setAttribute('aria-pressed',String(document.body.classList.contains('low-power')))});
     $('#themeBtn').addEventListener('click',toggleTheme);
     window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change',event=>{if(!storedTheme())applyTheme(event.matches?'light':'dark')});
+    $('#timeBtn').addEventListener('click',()=>{
+      const btn=$('#timeBtn');
+      if(!btn.classList.contains('flying'))return;
+      btn.classList.add('reveal');
+      clearTimeout(timeRevealId);
+      timeRevealId=setTimeout(()=>btn.classList.remove('reveal'),4000);
+    });
+    $('#mentalDump').addEventListener('input',()=>{
+      if(inkTimer)return;
+      inkTimer=setTimeout(()=>{inkTimer=null;brightenStars()},800);
+    });
     $('#downloadMdBtn').addEventListener('click',()=>download('night-flight-landing-card.md',landingMarkdown(),'text/markdown;charset=utf-8'));
     $('#downloadJsonBtn').addEventListener('click',()=>download('night-flight-full-session.json',JSON.stringify(sessionState(),null,2),'application/json;charset=utf-8'));
     $('#copyBtn').addEventListener('click',event=>copyText(landingMarkdown(),event.currentTarget));
@@ -1077,6 +1198,8 @@ dialog::backdrop{background:var(--backdrop)}
   }
 
   createAtmosphere();
+  buildWaypoints();
+  scheduleShootingStar();
   applyTheme(document.documentElement.classList.contains('light')?'light':'dark');
   syncVisualViewport(true);
   addRung('',false);
