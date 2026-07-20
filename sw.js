@@ -1,4 +1,4 @@
-const CACHE_NAME = 'night-flight-v3-iphone-20260720';
+const CACHE_NAME = 'night-flight-v4-japandi-20260720';
 const APP_SHELL = [
   './',
   './index.html',
