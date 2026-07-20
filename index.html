@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1026">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Night Flight">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Night Flight | A private guided reset</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script>document.documentElement.className='js';</script>
+<style>
+:root{
+  --ink:#080c1d;
+  --ink-soft:#111833;
+  --paper:#f7f2e9;
+  --muted:#e0ddea;
+  --amber:#f4ba7c;
+  --amber-strong:#ffe2b4;
+  --rose:#ef9b9b;
+  --violet:#a99ad4;
+  --teal:#8fc9c2;
+  --line:rgba(247,242,233,.22);
+  --line-strong:rgba(247,242,233,.42);
+  --glass:rgba(7,11,28,.77);
+  --glass-solid:#111630;
+  --display:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --body:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --safe-top:max(14px,env(safe-area-inset-top));
+  --safe-bottom:max(16px,env(safe-area-inset-bottom));
+}
+*{box-sizing:border-box}
+html{background:var(--ink);scroll-behavior:smooth;scroll-padding-top:110px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:var(--app-height,100dvh);background:var(--ink);color:var(--paper);font:16px/1.6 var(--body);overflow-x:hidden;overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent}
+button,input,textarea,select{font:inherit}
+button,input,textarea,select,a{touch-action:manipulation}
+button{min-height:46px;-webkit-appearance:none;appearance:none;-webkit-touch-callout:none}
+a{color:var(--amber-strong)}
+::selection{background:var(--amber);color:var(--ink)}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* Atmosphere */
+.sky{position:fixed;inset:0;z-index:-4;opacity:0;transition:opacity 1.4s ease;background:#101630}
+.sky.on{opacity:1}
+#sky-dusk{background:linear-gradient(180deg,#211b49 0%,#503561 54%,#b46d64 100%)}
+#sky-climb{background:linear-gradient(180deg,#11152e 0%,#292553 66%,#68405e 100%)}
+#sky-cruise{background:linear-gradient(180deg,#0b1026 0%,#192147 72%,#302b57 100%)}
+#sky-night{background:linear-gradient(180deg,#03050d 0%,#080c1d 66%,#121838 100%)}
+#sky-predawn{background:linear-gradient(180deg,#0a1025 0%,#352b55 65%,#805067 100%)}
+#sky-dawn{background:linear-gradient(180deg,#29234a 0%,#72485f 48%,#8c4f5c 100%)}
+#stars{position:fixed;inset:0;z-index:-3;pointer-events:none;transition:opacity 1.2s ease}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--paper);opacity:.42;animation:twinkle var(--tw,5s) ease-in-out infinite}
+.cloud{position:fixed;z-index:-2;pointer-events:none;filter:blur(32px);opacity:.07;background:radial-gradient(ellipse at center,#fff 0%,transparent 68%);animation:drift linear infinite}
+@keyframes twinkle{0%,100%{opacity:.18}50%{opacity:.82}}
+@keyframes drift{from{transform:translateX(-38vw)}to{transform:translateX(138vw)}}
+body.low-power .star,body.low-power .cloud{animation-play-state:paused}
+body.low-power .cloud{display:none}
+body.low-power .card{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(7,11,28,.93)}
+
+/* Header */
+.hud{position:fixed;z-index:30;top:0;left:0;right:0;padding:var(--safe-top) max(18px,env(safe-area-inset-right)) 12px max(18px,env(safe-area-inset-left));background:linear-gradient(180deg,rgba(3,5,13,.94) 0%,rgba(3,5,13,.66) 65%,transparent 100%)}
+.hud-row{max-width:1120px;margin:auto;display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;font:500 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.hud-route{color:var(--muted)}
+.hud-phase{text-align:center;color:var(--amber-strong)}
+.hud-time{text-align:right;color:var(--paper)}
+.progress-native{appearance:none;display:block;width:100%;max-width:1120px;height:3px;margin:13px auto 0;border:0;border-radius:999px;overflow:hidden;background:rgba(247,242,233,.14);color:var(--amber)}
+.progress-native::-webkit-progress-bar{background:rgba(247,242,233,.14)}
+.progress-native::-webkit-progress-value{background:var(--amber);box-shadow:0 0 14px rgba(244,186,124,.55);transition:width .5s ease}
+.progress-native::-moz-progress-bar{background:var(--amber);box-shadow:0 0 14px rgba(244,186,124,.55)}
+
+/* App layout */
+.app{min-height:100vh;min-height:var(--app-height,100dvh)}
+.panel{min-height:100vh;min-height:var(--app-height,100dvh);padding:118px max(20px,env(safe-area-inset-right)) calc(120px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));display:block}
+.js .panel{display:none}
+.js .panel.active{display:flex;align-items:center;animation:panelIn .45s ease both}
+@keyframes panelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel-inner{width:min(780px,100%);margin:auto}
+.panel-inner.wide{width:min(960px,100%)}
+.eyebrow{display:flex;flex-wrap:wrap;gap:10px 18px;margin:0 0 14px;color:var(--amber-strong);font:500 11px/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.eyebrow .muted{color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.06;margin:0}
+h1{font-size:clamp(48px,10vw,94px)}
+h2{font-size:clamp(38px,7vw,64px)}
+h3{font-size:clamp(25px,4vw,34px)}
+h2.card-title{font-size:clamp(25px,4vw,34px)}
+h1 em,h2 em,h3 em{font-weight:400;color:var(--amber-strong)}
+.lede{max-width:61ch;margin:20px 0 0;color:#e3dfeb;font-size:clamp(17px,2vw,20px)}
+.why{max-width:66ch;margin:15px 0 28px;color:#e3dfeb;font-size:15px}
+.why strong{color:var(--paper)}
+.micro{font-size:13px;color:var(--muted)}
+.stack{display:grid;gap:16px}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.three-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+
+/* Cards and fields */
+.card{padding:clamp(20px,4vw,30px);border:1px solid var(--line);border-radius:20px;background:var(--glass);box-shadow:0 20px 70px rgba(0,0,0,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card.subtle{background:rgba(8,12,29,.52)}
+.card.accent{border-color:rgba(244,186,124,.5);box-shadow:0 0 0 1px rgba(244,186,124,.05),0 24px 80px rgba(0,0,0,.2)}
+.question{display:block;margin:0 0 10px;font:italic 400 22px/1.32 var(--display);color:var(--paper)}
+.helper{display:block;margin:7px 0 0;color:var(--muted);font-size:13px}
+.field-group{margin-top:22px}
+.field-group:first-child{margin-top:0}
+textarea,input[type="text"],input[type="date"],select{
+  width:100%;min-height:48px;border:1px solid var(--line-strong);border-radius:12px;background:rgba(2,4,13,.56);color:var(--paper);padding:13px 15px;font-size:16px
+}
+textarea{min-height:118px;resize:vertical;line-height:1.55;-webkit-overflow-scrolling:touch}
+textarea.large{min-height:210px}
+textarea::placeholder,input::placeholder{color:#9491a4}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--amber) 50%),linear-gradient(135deg,var(--amber) 50%,transparent 50%);background-position:calc(100% - 18px) 20px,calc(100% - 12px) 20px;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:42px}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--amber-strong);outline-offset:3px}
+.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.choice{position:relative;display:block}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{display:flex;min-height:82px;height:100%;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(2,4,13,.38);flex-direction:column;justify-content:center;gap:3px;cursor:pointer;transition:.2s ease}
+.choice strong{font:500 14px/1.35 var(--body);color:var(--paper)}
+.choice small{font-size:12px;color:var(--muted)}
+.choice input:checked+span{border-color:var(--amber);background:rgba(244,186,124,.12);box-shadow:0 0 0 1px var(--amber)}
+.choice input:focus-visible+span{outline:3px solid var(--amber-strong);outline-offset:3px}
+.state-row{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.state-row+.state-row{margin-top:20px}
+.state-value{min-width:38px;text-align:right;color:var(--amber-strong);font:500 22px/1 var(--mono)}
+.range-wrap{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;color:var(--muted);font-size:11px}
+input[type="range"]{width:100%;height:44px;margin:0;accent-color:var(--amber);cursor:pointer}
+.need-grid{display:grid;gap:13px}
+.need-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,210px);gap:18px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(2,4,13,.3)}
+.need-row p{margin:0;color:#e5e1eb;font-size:14px}
+.need-row small{display:block;margin-top:3px;color:var(--muted)}
+.need-result{display:none;margin-top:18px;padding:16px;border-left:3px solid var(--amber);background:rgba(244,186,124,.09);border-radius:0 12px 12px 0;color:#eee8df}
+.need-result.show{display:block}
+
+/* Why ladder */
+.rungs{display:grid;gap:12px;margin:18px 0}
+.rung{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center}
+.rung-num{text-align:right;color:var(--violet);font:500 11px/1.2 var(--mono);letter-spacing:.08em}
+.rung input{min-width:0}
+
+/* Difficult signal */
+.signal-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:16px}
+.signal-tab{border:1px solid var(--line);border-radius:12px;background:rgba(2,4,13,.34);color:var(--paper);padding:10px;cursor:pointer}
+.signal-tab[aria-selected="true"]{background:rgba(169,154,212,.17);border-color:var(--violet);color:#f0eaff}
+.signal-pane{display:none}
+.signal-pane.active{display:block}
+.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(2,4,13,.28);cursor:pointer;color:#e5e1eb;font-size:14px}
+.check input{margin-top:4px;accent-color:var(--violet);transform:scale(1.25)}
+
+/* Buttons and navigation */
+.button-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:1px solid var(--amber);border-radius:999px;background:transparent;color:var(--amber-strong);padding:10px 20px;font:600 12px/1.2 var(--mono);letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,transform .2s}
+.btn:hover{background:rgba(244,186,124,.12)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.btn.primary:hover{background:var(--amber-strong);border-color:var(--amber-strong)}
+.btn.quiet{border-color:var(--line-strong);color:var(--paper)}
+.btn.danger{border-color:var(--rose);color:#ffd4d4}
+.btn.small{min-height:40px;padding:8px 15px;font-size:11px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.nav{position:fixed;z-index:25;left:0;right:0;bottom:0;padding:12px max(18px,env(safe-area-inset-right)) var(--safe-bottom) max(18px,env(safe-area-inset-left));background:linear-gradient(0deg,rgba(3,5,13,.98) 0%,rgba(3,5,13,.86) 72%,transparent 100%)}
+.nav-inner{max-width:780px;margin:auto;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.nav-actions{display:flex;gap:9px;justify-content:flex-end}
+.nav-center{text-align:center;color:var(--muted);font:500 11px/1.35 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.nav-center strong{display:block;color:var(--paper);font-size:12px}
+.nav[hidden]{display:none}
+.utilities{position:fixed;right:max(15px,env(safe-area-inset-right));top:82px;z-index:35;display:flex;gap:8px}
+.icon-btn{width:46px;height:46px;border:1px solid var(--line-strong);border-radius:50%;background:rgba(3,5,13,.78);color:var(--paper);cursor:pointer;font-size:17px;backdrop-filter:blur(10px)}
+.icon-btn:hover{border-color:var(--amber);color:var(--amber)}
+.save-state{position:fixed;z-index:31;left:max(18px,env(safe-area-inset-left));top:76px;color:var(--muted);font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+
+/* Details, notices and landing */
+.notice{padding:15px 17px;border:1px solid var(--line);border-radius:13px;background:rgba(8,12,29,.58);color:#ded9e6;font-size:14px}
+.notice strong{color:var(--paper)}
+.notice.warn{border-color:rgba(239,155,155,.52);background:rgba(239,155,155,.08)}
+.status-dot{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px rgba(143,201,194,.7)}
+details.evidence{margin-top:16px;border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:13px}
+details.evidence summary{display:inline-block;color:#ddd7e7;cursor:pointer;font:500 11px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+details.evidence p{margin:10px 0 0;max-width:68ch}
+.confidence-note{display:none;margin-top:10px;color:#ffd2bd;font-size:13px}
+.confidence-note.show{display:block}
+.landing-card{padding:clamp(22px,5vw,36px);border:1px solid rgba(244,186,124,.58);border-radius:22px;background:rgba(8,12,29,.88);box-shadow:0 28px 90px rgba(0,0,0,.3)}
+.landing-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.landing-head .stamp{color:var(--amber);font:500 10px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;text-align:right}
+.landing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.landing-item{padding:18px 0;border-bottom:1px solid var(--line)}
+.landing-item.full{grid-column:1/-1}
+.landing-label{margin-bottom:5px;color:var(--amber);font:500 10px/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.landing-value{white-space:pre-wrap;color:#eeeaf1;font-size:15px}
+.export-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.post-check{margin-top:18px}
+.privacy-note{margin-top:12px;color:var(--muted);font-size:12px}
+.no-script-notice{margin:100px auto 20px;max-width:760px}
+.boarding-grid{margin-top:28px}
+.choice-grid.two-choice{grid-template-columns:repeat(2,minmax(0,1fr))}
+.top-gap{margin-top:16px}
+.compact-row{margin-top:12px}
+.fieldset-reset{border:0;padding:0;margin-inline:0}
+.full-log-details{margin-top:20px}
+.full-log-pre{white-space:pre-wrap;font:13px/1.65 var(--mono);color:#ddd8e4}
+body.keyboard-open .hud,body.keyboard-open .nav,body.keyboard-open .utilities,body.keyboard-open .save-state{display:none!important}
+body.keyboard-open .panel{padding-top:calc(18px + env(safe-area-inset-top));padding-bottom:30px}
+.js body.keyboard-open .panel.active{align-items:flex-start}
+
+/* Dialog */
+dialog{width:min(590px,calc(100% - 28px));border:1px solid var(--line-strong);border-radius:20px;background:var(--glass-solid);color:var(--paper);padding:0;box-shadow:0 30px 100px #000}
+dialog::backdrop{background:rgba(1,2,8,.78);backdrop-filter:blur(5px)}
+.dialog-inner{padding:28px}
+.ground-list{margin:18px 0;padding-left:22px;color:#ded9e6}
+.ground-list li+li{margin-top:7px}
+
+/* Resume */
+#resumeBox{display:none;margin-top:20px}
+#resumeBox.show{display:block}
+
+@media (max-width:720px){
+  .hud-row{grid-template-columns:1fr auto;gap:12px}
+  .hud-route{display:none}
+  .hud-phase{text-align:left}
+  .panel{padding-top:112px}
+  .two-col,.three-col,.landing-grid{grid-template-columns:1fr}
+  .choice-grid{grid-template-columns:1fr}
+  .choice span{min-height:66px}
+  .need-row{grid-template-columns:1fr;gap:10px}
+  .signal-tabs{grid-template-columns:1fr}
+  .signal-tab{text-align:left}
+  .check-grid{grid-template-columns:1fr}
+  .landing-item.full{grid-column:auto}
+  .landing-head{display:block}
+  .landing-head .stamp{text-align:left;margin-top:10px}
+  .utilities{top:auto;bottom:calc(80px + env(safe-area-inset-bottom));right:12px;flex-direction:column}
+  .save-state{top:68px}
+  .nav-center span{display:none}
+  .rung{grid-template-columns:50px minmax(0,1fr)}
+}
+@media (max-width:430px){
+  .nav-inner{grid-template-columns:auto 1fr}
+  .nav-center{display:none}
+  .nav .btn{padding-inline:12px}
+  .nav-actions{min-width:0}
+  .state-row{grid-template-columns:1fr auto}
+}
+@media (hover:none) and (pointer:coarse){
+  .card{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+  .star:nth-child(n+41){display:none}
+  textarea,input[type="text"],input[type="date"],select{font-size:16px}
+}
+@media (max-height:600px) and (orientation:landscape){
+  .js .panel.active{align-items:flex-start}
+  .panel{padding-top:94px;padding-bottom:100px}
+  h1{font-size:clamp(45px,9vw,68px)}
+  h2{font-size:clamp(36px,7vw,54px)}
+  .utilities{top:70px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .cloud{display:none}
+}
+@media (prefers-contrast:more){
+  :root{--muted:#e0ddea;--line:rgba(255,255,255,.45);--line-strong:rgba(255,255,255,.75);--glass:#070b1cf2}
+}
+@media print{
+  body{background:#fff;color:#111}
+  .sky,#stars,.cloud,.hud,.nav,.utilities,.save-state,.panel:not(#landing),.export-actions,.post-check,details{display:none!important}
+  .js #landing.panel{display:block!important;padding:20px;min-height:auto}
+  .landing-card{box-shadow:none;background:#fff;color:#111;border:1px solid #333}
+  .landing-value,.landing-label,h2,.why{color:#111}
+}
+</style>
+</head>
+<body>
+<div class="sky on" id="sky-dusk"></div>
+<div class="sky" id="sky-climb"></div>
+<div class="sky" id="sky-cruise"></div>
+<div class="sky" id="sky-night"></div>
+<div class="sky" id="sky-predawn"></div>
+<div class="sky" id="sky-dawn"></div>
+<div id="stars" aria-hidden="true"></div>
+
+<header class="hud" aria-label="Session progress">
+  <div class="hud-row">
+    <div class="hud-route">Night Flight · Private cabin</div>
+    <div class="hud-phase" id="hudPhase">Boarding</div>
+    <div class="hud-time"><span class="sr-only">Time remaining: </span><span id="hudTime">Not started</span></div>
+  </div>
+  <progress class="progress-native" aria-label="Journey progress" max="7" value="0" id="progressTrack">0 of 7</progress>
+</header>
+
+<div class="save-state" id="saveState" aria-live="polite">Temporary session</div>
+
+<div class="utilities" id="utilities" hidden>
+  <button class="icon-btn" id="groundBtn" type="button" aria-label="Pause and ground" title="Pause and ground">◎</button>
+  <button class="icon-btn" id="powerBtn" type="button" aria-label="Use low power visuals" title="Low power visuals">✦</button>
+</div>
+
+<main class="app" id="app">
+  <noscript><div class="notice warn no-script-notice">JavaScript is unavailable. You can still read every prompt below, but saving, navigation and export will not work.</div></noscript>
+
+  <section class="panel active" id="boarding" data-step="0" data-sky="sky-dusk" data-phase="Boarding" aria-labelledby="boardingTitle">
+    <div class="panel-inner wide">
+      <div class="eyebrow"><span>Gate 01 · Seat: window</span><span class="muted" id="offlineStatus"><span class="status-dot"></span>Checking offline readiness</span></div>
+      <h1 id="boardingTitle">Night <em>Flight</em></h1>
+      <p class="lede">A private guided reset for a quiet stretch of time. Clear the noise, explore one live question, then land with a working hypothesis, a boundary and one action to test for seven days.</p>
+
+      <div class="two-col boarding-grid">
+        <div class="card">
+          <h2 class="card-title">Choose your <em>flight</em></h2>
+          <div class="field-group">
+            <span class="question" id="durationLabel">How much protected time do you have?</span>
+            <div class="choice-grid" role="radiogroup" aria-labelledby="durationLabel">
+              <label class="choice"><input type="radio" name="duration" data-field="duration" value="45"><span><strong>45 minutes</strong><small>A focused reset</small></span></label>
+              <label class="choice"><input type="radio" name="duration" data-field="duration" value="90" checked><span><strong>90 minutes</strong><small>Recommended</small></span></label>
+              <label class="choice"><input type="radio" name="duration" data-field="duration" value="120"><span><strong>120 minutes</strong><small>More space to write</small></span></label>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="question" id="depthLabel">How deeply do you want to go today?</span>
+            <div class="choice-grid" role="radiogroup" aria-labelledby="depthLabel">
+              <label class="choice"><input type="radio" name="depth" data-field="depth" value="gentle"><span><strong>Gentle</strong><small>Clarity without pressure</small></span></label>
+              <label class="choice"><input type="radio" name="depth" data-field="depth" value="honest" checked><span><strong>Honest</strong><small>Direct but contained</small></span></label>
+              <label class="choice"><input type="radio" name="depth" data-field="depth" value="deep"><span><strong>Deep</strong><small>Harder material</small></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Your words stay <em>yours</em></h2>
+          <p class="why">The app has no account, analytics or remote processing. Choose whether this browser should keep your answers.</p>
+          <div class="field-group">
+            <span class="question" id="storageLabel">How should this session be saved?</span>
+            <div class="choice-grid two-choice" role="radiogroup" aria-labelledby="storageLabel">
+              <label class="choice"><input type="radio" name="storage" data-field="storage" value="session" checked><span><strong>This tab</strong><small>Survives refresh, clears when the tab session ends</small></span></label>
+              <label class="choice"><input type="radio" name="storage" data-field="storage" value="device"><span><strong>This device</strong><small>Available when you return in this browser</small></span></label>
+            </div>
+          </div>
+          <p class="privacy-note">Device storage is convenient, but anyone with access to this browser profile may be able to open it. You can erase the session at any time.</p>
+
+          <div class="field-group" aria-labelledby="arrivalStateLabel">
+            <span class="question" id="arrivalStateLabel">Before takeoff</span>
+            <div class="state-row">
+              <label for="energyBefore">Energy right now</label><output class="state-value" for="energyBefore" id="energyBeforeOut">5</output>
+              <div class="range-wrap"><span>Low</span><input type="range" min="1" max="10" value="5" id="energyBefore" data-field="energyBefore"><span>High</span></div>
+            </div>
+            <div class="state-row">
+              <label for="distressBefore">Emotional intensity</label><output class="state-value" for="distressBefore" id="distressBeforeOut">3</output>
+              <div class="range-wrap"><span>Settled</span><input type="range" min="1" max="10" value="3" id="distressBefore" data-field="distressBefore"><span>Overwhelmed</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice warn top-gap"><strong>This is a reflection tool, not therapy or a psychological assessment.</strong> Skip anything that feels wrong for today. If you already feel overwhelmed, choose Gentle or return when you feel steadier.</div>
+
+      <div id="resumeBox" class="notice">
+        <strong>A previous session is available.</strong> Continue where you left off, or start a fresh flight.
+        <div class="button-row compact-row"><button class="btn primary small" type="button" id="resumeBtn">Resume session</button><button class="btn quiet small" type="button" id="freshBtn">Start fresh</button></div>
+      </div>
+
+      <div class="button-row"><button class="btn primary" type="button" id="beginBtn">Begin the journey</button></div>
+    </div>
+  </section>
+
+  <section class="panel" id="arrival" data-step="1" data-sky="sky-climb" data-phase="Climb · Clear the cabin" aria-labelledby="arrivalTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Leg 01</span><span class="muted" data-estimate>About 7 minutes</span></div>
+      <h2 id="arrivalTitle">Clear the <em>cabin</em></h2>
+      <p class="why">Start with whatever is occupying your attention. This is not a test of insight. It is simply a way to make the noise visible before choosing what deserves the flight.</p>
+      <div class="card">
+        <label class="question" for="mentalDump">What is buzzing in your mind right now?</label>
+        <span class="helper" id="mentalDumpHelp">Tasks, worries, fragments, decisions and feelings all belong here. No order is needed.</span>
+        <textarea class="large" id="mentalDump" data-field="mentalDump" aria-describedby="mentalDumpHelp" placeholder="Write without editing for a few minutes..."></textarea>
+        <details class="evidence"><summary>What the research can and cannot say</summary><p>Short writing exercises can help some people organise thoughts, but average psychological effects are generally small and vary by person and protocol. Treat this as attention clearing, not treatment.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="focus" data-step="2" data-sky="sky-climb" data-phase="Climb · Choose a signal" aria-labelledby="focusTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Leg 02</span><span class="muted" data-estimate>About 13 minutes</span></div>
+      <h2 id="focusTitle">Follow one <em>signal</em></h2>
+      <p class="why">Choose one question that matters now. The ladder will not reveal a hidden final truth. It helps you form a working explanation that you can compare with real experience.</p>
+      <div class="card">
+        <div class="field-group">
+          <label class="question" for="focusQuestion">What are you chasing, avoiding or trying to decide?</label>
+          <input type="text" id="focusQuestion" data-field="focusQuestion" placeholder="One concrete goal, tension or decision">
+        </div>
+        <div class="rungs" id="rungs" aria-live="polite"></div>
+        <div class="button-row"><button class="btn quiet small" type="button" id="addRungBtn">Ask why again</button><button class="btn quiet small" type="button" id="removeRungBtn">Remove last</button></div>
+        <p class="helper">Stop when the answer becomes repetitive, vague or invented. More rungs do not necessarily mean more truth.</p>
+
+        <div class="field-group">
+          <label class="question" for="whyEvidence">What recent moment supports your latest answer?</label>
+          <textarea id="whyEvidence" data-field="whyEvidence" placeholder="Something you did, felt or repeatedly noticed"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="question" for="whyAlternative">What is another possible explanation?</label>
+          <textarea id="whyAlternative" data-field="whyAlternative" placeholder="A competing explanation keeps the insight honest"></textarea>
+        </div>
+        <div class="state-row field-group">
+          <label for="whyConfidence">How confident are you in this working explanation?</label><output class="state-value" for="whyConfidence" id="whyConfidenceOut">5</output>
+          <div class="range-wrap"><span>Unsure</span><input type="range" min="1" max="10" value="5" id="whyConfidence" data-field="whyConfidence"><span>Confident</span></div>
+        </div>
+        <details class="evidence"><summary>Why this is framed as a hypothesis</summary><p>People can build convincing explanations without having direct access to every cause of their own behaviour. Evidence and alternative explanations make the exercise more useful than repeated introspection alone.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="needs" data-step="3" data-sky="sky-cruise" data-phase="Cruise · Check your needs" aria-labelledby="needsTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Leg 03</span><span class="muted" data-estimate>About 10 minutes</span></div>
+      <h2 id="needsTitle">Check the <em>conditions</em></h2>
+      <p class="why">A widely studied motivation framework focuses on autonomy, competence and relatedness. Satisfaction and frustration are different experiences, so this reflection checks both. It is not a validated score.</p>
+      <div class="card">
+        <div class="need-grid">
+          <div class="need-row"><div><p>My recent choices have felt like my own.</p><small>Autonomy satisfaction</small></div><label><span class="sr-only">How true is this statement?</span><select data-field="autonomySatisfaction" class="need-select"><option value="">Choose</option><option value="1">Not at all</option><option value="2">A little</option><option value="3">Somewhat</option><option value="4">Quite a lot</option><option value="5">Very much</option></select></label></div>
+          <div class="need-row"><div><p>I have felt pressured into choices I do not endorse.</p><small>Autonomy frustration</small></div><label><span class="sr-only">How true is this statement?</span><select data-field="autonomyFrustration" class="need-select"><option value="">Choose</option><option value="1">Not at all</option><option value="2">A little</option><option value="3">Somewhat</option><option value="4">Quite a lot</option><option value="5">Very much</option></select></label></div>
+          <div class="need-row"><div><p>I have felt capable and effective in things that matter.</p><small>Competence satisfaction</small></div><label><span class="sr-only">How true is this statement?</span><select data-field="competenceSatisfaction" class="need-select"><option value="">Choose</option><option value="1">Not at all</option><option value="2">A little</option><option value="3">Somewhat</option><option value="4">Quite a lot</option><option value="5">Very much</option></select></label></div>
+          <div class="need-row"><div><p>I have felt ineffective or unable to make progress.</p><small>Competence frustration</small></div><label><span class="sr-only">How true is this statement?</span><select data-field="competenceFrustration" class="need-select"><option value="">Choose</option><option value="1">Not at all</option><option value="2">A little</option><option value="3">Somewhat</option><option value="4">Quite a lot</option><option value="5">Very much</option></select></label></div>
+          <div class="need-row"><div><p>I have felt close to and understood by people who matter.</p><small>Relatedness satisfaction</small></div><label><span class="sr-only">How true is this statement?</span><select data-field="relatednessSatisfaction" class="need-select"><option value="">Choose</option><option value="1">Not at all</option><option value="2">A little</option><option value="3">Somewhat</option><option value="4">Quite a lot</option><option value="5">Very much</option></select></label></div>
+          <div class="need-row"><div><p>I have felt excluded, lonely or emotionally distant.</p><small>Relatedness frustration</small></div><label><span class="sr-only">How true is this statement?</span><select data-field="relatednessFrustration" class="need-select"><option value="">Choose</option><option value="1">Not at all</option><option value="2">A little</option><option value="3">Somewhat</option><option value="4">Quite a lot</option><option value="5">Very much</option></select></label></div>
+        </div>
+        <div class="need-result" id="needResult" aria-live="polite"></div>
+        <div class="field-group">
+          <label class="question" for="needContext">Where does this show up most clearly, and what might help?</label>
+          <textarea id="needContext" data-field="needContext" placeholder="Work, relationships, health, home or somewhere else"></textarea>
+        </div>
+        <details class="evidence"><summary>Evidence note</summary><p>Self Determination Theory distinguishes satisfaction from active frustration of autonomy, competence and relatedness. These six prompts are a brief reflection inspired by that framework, not the validated BPNSFS questionnaire.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="signals" data-step="4" data-sky="sky-night" data-phase="Night sector · Difficult signal" aria-labelledby="signalsTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Leg 04</span><span class="muted" data-estimate>About 13 minutes</span></div>
+      <h2 id="signalsTitle">Read one difficult <em>signal</em></h2>
+      <p class="why" id="depthNote">You do not need to process every difficult feeling at once. Choose one path that feels useful today. Each path offers possibilities, not a diagnosis.</p>
+      <div class="card">
+        <div class="signal-tabs" role="tablist" aria-label="Choose a difficult signal">
+          <button class="signal-tab" type="button" role="tab" aria-selected="true" aria-controls="envyPane" id="envyTab" data-signal="envy">Envy or comparison</button>
+          <button class="signal-tab" type="button" role="tab" aria-selected="false" aria-controls="hotPane" id="hotTab" data-signal="hot">A strong reaction</button>
+          <button class="signal-tab" type="button" role="tab" aria-selected="false" aria-controls="regretPane" id="regretTab" data-signal="regret">Regret or guilt</button>
+        </div>
+        <input type="hidden" data-field="signalPath" id="signalPath" value="envy">
+
+        <div class="signal-pane active" id="envyPane" role="tabpanel" aria-labelledby="envyTab">
+          <div class="field-group"><label class="question" for="envyWhat">Who or what brings up comparison, and what exactly affects you?</label><textarea id="envyWhat" data-field="envyWhat" placeholder="An outcome, recognition, freedom, identity or sense of fairness"></textarea></div>
+          <div class="field-group"><label class="question" for="envyControl">What part of the desire is within your control?</label><textarea id="envyControl" data-field="envyControl"></textarea></div>
+          <div class="field-group"><label class="question" for="envyTradeoff">What cost or tradeoff might you not be seeing?</label><textarea id="envyTradeoff" data-field="envyTradeoff"></textarea></div>
+        </div>
+
+        <div class="signal-pane" id="hotPane" role="tabpanel" aria-labelledby="hotTab" hidden>
+          <div class="field-group"><label class="question" for="hotWhat">What behaviour creates a reaction that feels unusually strong?</label><textarea id="hotWhat" data-field="hotWhat"></textarea></div>
+          <fieldset class="field-group fieldset-reset"><legend class="question">Which explanations might be worth testing?</legend>
+            <div class="check-grid">
+              <label class="check"><input type="checkbox" data-field="hotValue" value="yes"><span>A value of mine is being violated.</span></label>
+              <label class="check"><input type="checkbox" data-field="hotWound" value="yes"><span>This resembles something that hurt me before.</span></label>
+              <label class="check"><input type="checkbox" data-field="hotFear" value="yes"><span>I fear becoming like this.</span></label>
+              <label class="check"><input type="checkbox" data-field="hotSimilarity" value="yes"><span>I sometimes show a related version of it.</span></label>
+            </div>
+          </fieldset>
+          <div class="field-group"><label class="question" for="hotResponse">What response would protect your values without pretending you know the full cause?</label><textarea id="hotResponse" data-field="hotResponse"></textarea></div>
+        </div>
+
+        <div class="signal-pane" id="regretPane" role="tabpanel" aria-labelledby="regretTab" hidden>
+          <div class="field-group"><label class="question" for="regretWhat">What action or omission are you not proud of?</label><textarea id="regretWhat" data-field="regretWhat"></textarea></div>
+          <div class="field-group"><label class="question" for="regretResponsibility">What was genuinely within your responsibility, and what was not?</label><textarea id="regretResponsibility" data-field="regretResponsibility"></textarea></div>
+          <div class="field-group"><label class="question" for="regretRepair">Is repair needed, self forgiveness needed, or both?</label><textarea id="regretRepair" data-field="regretRepair"></textarea></div>
+        </div>
+        <details class="evidence"><summary>Evidence note</summary><p>Envy can involve self improvement or hostility, depending on how the comparison is understood. Guilt often focuses attention on a behaviour and can support repair. The strong reaction path is deliberately presented as hypothesis generation because irritation does not prove projection.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="boundary" data-step="5" data-sky="sky-night" data-phase="Night sector · Draw a boundary" aria-labelledby="boundaryTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Leg 05</span><span class="muted" data-estimate>About 10 minutes</span></div>
+      <h2 id="boundaryTitle">Draw one <em>boundary</em></h2>
+      <p class="why">A boundary describes what you will communicate or do. It is not a rule that controls another person. Keep this specific enough that you would recognise it in real life.</p>
+      <div class="card">
+        <div class="field-group"><label class="question" for="boundarySituation">What situation or behaviour needs a boundary?</label><textarea id="boundarySituation" data-field="boundarySituation"></textarea></div>
+        <div class="field-group"><label class="question" for="boundaryImpact">What impact does it have on you, and what value or need is affected?</label><textarea id="boundaryImpact" data-field="boundaryImpact"></textarea></div>
+        <div class="field-group"><label class="question" for="boundaryCommunicate">What will you communicate first?</label><textarea id="boundaryCommunicate" data-field="boundaryCommunicate" placeholder="When this happens, I experience... I need..."></textarea></div>
+        <div class="field-group"><label class="question" for="boundaryAction">If it continues, what action within your control will you take?</label><textarea id="boundaryAction" data-field="boundaryAction" placeholder="I will pause, leave, decline, change access, ask for help..."></textarea></div>
+        <details class="evidence"><summary>Why this is separate from discipline</summary><p>Planning your own response can reduce ambiguity. Relationship boundaries and personal habit formation are different problems, so the behaviour experiment comes next.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="experiment" data-step="6" data-sky="sky-predawn" data-phase="Descent · Seven day experiment" aria-labelledby="experimentTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Leg 06</span><span class="muted" data-estimate>About 17 minutes</span></div>
+      <h2 id="experimentTitle">Design a seven day <em>experiment</em></h2>
+      <p class="why">Do not promise to become a different person. Choose one small behaviour that tests the insight you formed. The cue and response should both be observable.</p>
+      <div class="card accent">
+        <div class="field-group"><label class="question" for="workingHypothesis">My current working hypothesis is...</label><textarea id="workingHypothesis" data-field="workingHypothesis" placeholder="A provisional insight, not a verdict about who you are"></textarea></div>
+        <div class="field-group"><label class="question" for="experimentGoal">For the next seven days, what matters enough to act on?</label><textarea id="experimentGoal" data-field="experimentGoal"></textarea></div>
+        <div class="field-group"><label class="question" for="experimentCue">If this specific moment happens...</label><input type="text" id="experimentCue" data-field="experimentCue" placeholder="A time, place, feeling or event I can recognise"></div>
+        <div class="field-group"><label class="question" for="experimentAction">Then I will...</label><input type="text" id="experimentAction" data-field="experimentAction" placeholder="A small action I can actually observe"></div>
+        <div class="two-col">
+          <div class="field-group"><label class="question" for="experimentMinimum">The minimum version is...</label><textarea id="experimentMinimum" data-field="experimentMinimum" placeholder="Small enough for a difficult day"></textarea></div>
+          <div class="field-group"><label class="question" for="experimentFallback">If the first plan fails, I will...</label><textarea id="experimentFallback" data-field="experimentFallback"></textarea></div>
+        </div>
+        <div class="state-row field-group">
+          <label for="actionConfidence">How confident are you that you will do this?</label><output class="state-value" for="actionConfidence" id="actionConfidenceOut">7</output>
+          <div class="range-wrap"><span>Low</span><input type="range" min="1" max="10" value="7" id="actionConfidence" data-field="actionConfidence"><span>High</span></div>
+        </div>
+        <div class="confidence-note" id="confidenceNote">Make the action smaller or the cue more specific until your confidence reaches at least seven.</div>
+        <details class="evidence"><summary>Evidence note</summary><p>If then planning can help translate an existing goal into behaviour. It works best when the goal already matters to the person, which is why this step asks what is worth acting on before creating the cue.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="integration" data-step="7" data-sky="sky-dawn" data-phase="Approach · Integrate" aria-labelledby="integrationTitle">
+    <div class="panel-inner">
+      <div class="eyebrow"><span>Final approach</span><span class="muted" data-estimate>About 10 minutes</span></div>
+      <h2 id="integrationTitle">Return with <em>support</em></h2>
+      <p class="why">Before turning insight into a document, reconnect with what already supports you. Difficult reflection should end with orientation, not only analysis.</p>
+      <div class="card">
+        <div class="field-group"><label class="question" for="resource">What strength, person, place or practice has carried you before?</label><textarea id="resource" data-field="resource"></textarea></div>
+        <div class="field-group"><label class="question" for="noteToSelf">What do you want your seven day self to remember?</label><textarea id="noteToSelf" data-field="noteToSelf" placeholder="Keep it short enough that you will read it again"></textarea></div>
+        <div class="two-col post-check">
+          <div class="state-row"><label for="energyAfter">Energy now</label><output class="state-value" for="energyAfter" id="energyAfterOut">5</output><div class="range-wrap"><span>Low</span><input type="range" min="1" max="10" value="5" id="energyAfter" data-field="energyAfter"><span>High</span></div></div>
+          <div class="state-row"><label for="distressAfter">Emotional intensity now</label><output class="state-value" for="distressAfter" id="distressAfterOut">3</output><div class="range-wrap"><span>Settled</span><input type="range" min="1" max="10" value="3" id="distressAfter" data-field="distressAfter"><span>Overwhelmed</span></div></div>
+        </div>
+        <div id="closingNotice" class="notice warn top-gap" hidden>Your emotional intensity is still high. Consider pausing here, grounding yourself and contacting someone you trust before making important decisions.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="landing" data-step="8" data-sky="sky-dawn" data-phase="Landed · Your flight log" aria-labelledby="landingTitle">
+    <div class="panel-inner wide">
+      <div class="eyebrow"><span>Arrival</span><span class="muted">Keep what remains useful</span></div>
+      <h2 id="landingTitle">Your <em>Landing Card</em></h2>
+      <p class="why">This is a record of working hypotheses, not a final description of you. Review it in seven days and notice what real life confirmed, changed or contradicted.</p>
+      <article class="landing-card" id="landingCard" aria-live="polite"></article>
+      <div class="export-actions">
+        <button class="btn primary small" type="button" id="downloadMdBtn">Download card</button>
+        <button class="btn quiet small" type="button" id="copyBtn">Copy</button>
+        <button class="btn quiet small" type="button" id="shareBtn">Share</button>
+        <button class="btn quiet small" type="button" id="calendarBtn">Seven day reminder</button>
+        <button class="btn quiet small" type="button" id="downloadJsonBtn">Export full session</button>
+        <button class="btn quiet small" type="button" id="printBtn">Print</button>
+      </div>
+      <p class="privacy-note">Exporting or sharing is always your choice. Calendar reminders contain only the title “Review Night Flight,” not your private answers.</p>
+      <details class="evidence full-log-details"><summary>Read the full flight log</summary><pre id="fullLog" class="full-log-pre"></pre></details>
+      <details class="evidence"><summary>Research foundations and limits</summary>
+        <p>The individual ideas behind this experience have different levels of support, and the complete Night Flight sequence has not been clinically validated.</p>
+        <ol>
+          <li>Expressive writing shows small average effects that vary across people and protocols. <a href="https://pubmed.ncbi.nlm.nih.gov/36536513/" target="_blank" rel="noopener noreferrer">Guo, 2023</a></li>
+          <li>Psychological need satisfaction and frustration are related but distinct. The app uses a custom reflection, not the validated scale. <a href="https://selfdeterminationtheory.org/wp-content/uploads/2015/01/2015_ChenVansteenkisteEtAl_BPNS_MOEM.pdf" target="_blank" rel="noopener noreferrer">Chen and colleagues, 2015</a></li>
+          <li>Envy can involve self improvement or hostility. <a href="https://pubmed.ncbi.nlm.nih.gov/19485619/" target="_blank" rel="noopener noreferrer">Van de Ven and colleagues, 2009</a></li>
+          <li>Guilt can motivate targeted repair, but guilt and shame remain more complex than a simple healthy versus unhealthy split. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4886498/" target="_blank" rel="noopener noreferrer">Cryder and colleagues, 2012</a></li>
+          <li>If then plans are most useful when supported by a meaningful active goal. <a href="https://wp.nyu.edu/motivationlab/wp-content/uploads/sites/6235/2019/02/sheeran-et-al-2005-the-interplay-between-goal-intentions-and-implementation-intentions.pdf" target="_blank" rel="noopener noreferrer">Sheeran and colleagues, 2005</a></li>
+        </ol>
+      </details>
+      <div class="button-row"><button class="btn danger small" type="button" id="clearBtn">Erase saved session</button><button class="btn quiet small" type="button" id="restartBtn">Begin another flight</button></div>
+    </div>
+  </section>
+</main>
+
+<nav class="nav" id="nav" aria-label="Journey navigation" hidden>
+  <div class="nav-inner">
+    <button class="btn quiet small" type="button" id="backBtn">Back</button>
+    <div class="nav-center"><strong id="navStep">Leg 1 of 7</strong><span>You can skip any section</span></div>
+    <div class="nav-actions"><button class="btn quiet small" type="button" id="skipBtn">Skip</button><button class="btn primary small" type="button" id="nextBtn">Continue</button></div>
+  </div>
+</nav>
+
+<dialog id="groundDialog" aria-labelledby="groundTitle">
+  <div class="dialog-inner">
+    <div class="eyebrow"><span>Pause the flight</span></div>
+    <h3 id="groundTitle">Come back to the <em>cabin</em></h3>
+    <ol class="ground-list">
+      <li>Put both feet on the floor and feel the support underneath you.</li>
+      <li>Name five things you can see, four you can feel and three you can hear.</li>
+      <li>Breathe out a little longer than you breathe in.</li>
+      <li>Remind yourself that every prompt is optional.</li>
+    </ol>
+    <div class="button-row"><button class="btn primary" type="button" id="closeGroundBtn">Continue gently</button><button class="btn quiet" type="button" id="endSessionBtn">Go to closing</button></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  'use strict';
+
+  const VERSION='2.0.0';
+  const SESSION_KEY='nightFlight.session.v2';
+  const DEVICE_KEY='nightFlight.device.v2';
+  const TOTAL_CORE_STEPS=7;
+  const stepIds=['boarding','arrival','focus','needs','signals','boundary','experiment','integration','landing'];
+  const phases=stepIds.map(id=>document.getElementById(id).dataset.phase);
+  const timePlans={
+    '45':[4,7,5,7,6,8,5],
+    '90':[7,13,10,13,10,17,10],
+    '120':[10,18,15,20,15,22,15]
+  };
+  let currentStep=0;
+  let startedAt=null;
+  let timerId=null;
+  let rungCount=0;
+  let saveTimer=null;
+  let storageMode='session';
+  let stableViewportHeight=window.visualViewport?.height||window.innerHeight;
+
+  const $=sel=>document.querySelector(sel);
+  const $$=sel=>Array.from(document.querySelectorAll(sel));
+  const getRadio=name=>document.querySelector('input[name="'+name+'"]:checked')?.value||'';
+  const val=id=>(document.getElementById(id)?.value||'').trim();
+  const esc=value=>String(value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+
+  function createAtmosphere(){
+    const wrap=$('#stars');
+    for(let i=0;i<56;i++){
+      const star=document.createElement('span');
+      star.className='star';
+      const size=(Math.random()*1.6+.7).toFixed(1);
+      star.style.width=star.style.height=size+'px';
+      star.style.left=(Math.random()*100).toFixed(2)+'vw';
+      star.style.top=(Math.random()*100).toFixed(2)+'vh';
+      star.style.setProperty('--tw',(3+Math.random()*5).toFixed(1)+'s');
+      star.style.animationDelay=(-Math.random()*5).toFixed(1)+'s';
+      wrap.appendChild(star);
+    }
+    [[420,120,20,82],[520,145,58,105],[350,95,78,92]].forEach((d,i)=>{
+      const cloud=document.createElement('span');
+      cloud.className='cloud';
+      cloud.style.width=d[0]+'px';cloud.style.height=d[1]+'px';cloud.style.top=d[2]+'vh';
+      cloud.style.animationDuration=d[3]+'s';cloud.style.animationDelay=(-i*27)+'s';
+      document.body.appendChild(cloud);
+    });
+  }
+
+  function syncVisualViewport(reset=false){
+    const viewport=window.visualViewport;
+    const height=Math.round(viewport?.height||window.innerHeight);
+    const focused=document.activeElement?.matches?.('input,textarea,select');
+    if(reset||!focused)stableViewportHeight=height;
+    const keyboardOpen=Boolean(focused&&height<stableViewportHeight*.78);
+    document.documentElement.style.setProperty('--app-height',height+'px');
+    document.body.classList.toggle('keyboard-open',keyboardOpen);
+    if(keyboardOpen&&document.activeElement){
+      const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      setTimeout(()=>document.activeElement?.scrollIntoView?.({block:'center',inline:'nearest',behavior:reduce?'auto':'smooth'}),80);
+    }
+  }
+
+  function selectedDuration(){return Number(getRadio('duration')||90)}
+
+  function setRangeOutput(input){
+    const out=document.getElementById(input.id+'Out');
+    if(out)out.value=out.textContent=input.value;
+  }
+
+  function showStep(step,{focus=true,save=true}={}){
+    currentStep=Math.max(0,Math.min(step,stepIds.length-1));
+    $$('.panel').forEach(panel=>panel.classList.toggle('active',Number(panel.dataset.step)===currentStep));
+    const active=document.getElementById(stepIds[currentStep]);
+    $$('.sky').forEach(sky=>sky.classList.toggle('on',sky.id===active.dataset.sky));
+    $('#stars').style.opacity=active.dataset.sky==='sky-night'?'1':active.dataset.sky==='sky-dawn'?'.2':'.55';
+    $('#hudPhase').textContent=phases[currentStep];
+    const progressValue=Math.max(0,Math.min(TOTAL_CORE_STEPS,currentStep-1));
+    $('#progressTrack').value=progressValue;
+    $('#progressTrack').textContent=progressValue+' of '+TOTAL_CORE_STEPS;
+    $('#nav').hidden=currentStep===0||currentStep===8;
+    $('#utilities').hidden=currentStep===0;
+    $('#backBtn').disabled=currentStep<=1;
+    $('#nextBtn').textContent=currentStep===7?'Create Landing Card':'Continue';
+    $('#navStep').textContent=currentStep<=7?'Leg '+currentStep+' of 7':'Arrival';
+    if(currentStep===8)renderLanding();
+    window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    if(focus){
+      const heading=active.querySelector('h1,h2');
+      if(heading){heading.setAttribute('tabindex','-1');setTimeout(()=>heading.focus({preventScroll:true}),50)}
+    }
+    if(save)scheduleSave();
+  }
+
+  function startTimer(){
+    if(!startedAt)startedAt=Date.now();
+    clearInterval(timerId);
+    timerId=setInterval(updateTimer,1000);
+    updateTimer();
+  }
+
+  function updateTimer(){
+    if(!startedAt){$('#hudTime').textContent='Not started';return}
+    const total=selectedDuration()*60;
+    const elapsed=Math.floor((Date.now()-startedAt)/1000);
+    const remaining=Math.max(0,total-elapsed);
+    const mins=Math.floor(remaining/60);
+    const secs=String(remaining%60).padStart(2,'0');
+    $('#hudTime').textContent=remaining>0?mins+':'+secs+' remaining':'Time complete';
+  }
+
+  function updateEstimates(){
+    const plan=timePlans[String(selectedDuration())]||timePlans['90'];
+    $$('[data-estimate]').forEach((el,index)=>{el.textContent='About '+plan[index]+' minutes'});
+  }
+
+  function addRung(value='',shouldFocus=true){
+    if(rungCount>=6)return;
+    rungCount++;
+    const row=document.createElement('div');
+    row.className='rung';
+    row.dataset.rung=String(rungCount);
+    const label=document.createElement('label');
+    label.className='rung-num';
+    label.htmlFor='whyRung'+rungCount;
+    label.textContent='WHY '+rungCount;
+    const input=document.createElement('input');
+    input.type='text';input.id='whyRung'+rungCount;input.value=value;input.placeholder='Why does that matter?';input.autocomplete='off';
+    input.addEventListener('input',scheduleSave);
+    row.append(label,input);$('#rungs').appendChild(row);
+    $('#removeRungBtn').disabled=rungCount<=1;
+    $('#addRungBtn').disabled=rungCount>=6;
+    if(!value&&shouldFocus)input.focus();
+  }
+
+  function removeRung(){
+    if(rungCount<=1)return;
+    $('#rungs').lastElementChild.remove();rungCount--;
+    $('#removeRungBtn').disabled=rungCount<=1;$('#addRungBtn').disabled=false;scheduleSave();
+  }
+
+  function rungValues(){return $$('#rungs input').map(input=>input.value.trim())}
+
+  function computeNeed(){
+    const names=['autonomy','competence','relatedness'];
+    const completed=names.map(name=>{
+      const sat=Number(document.querySelector('[data-field="'+name+'Satisfaction"]').value);
+      const fru=Number(document.querySelector('[data-field="'+name+'Frustration"]').value);
+      return {name:name.charAt(0).toUpperCase()+name.slice(1),sat,fru,signal:sat&&fru?fru+(6-sat):null};
+    });
+    const box=$('#needResult');
+    if(completed.some(item=>item.signal===null)){
+      box.classList.remove('show');box.textContent='';return {label:'Not fully explored',items:completed};
+    }
+    const max=Math.max(...completed.map(item=>item.signal));
+    const leaders=completed.filter(item=>item.signal===max).map(item=>item.name);
+    const label=leaders.length===3?'No single need stands out in this brief check':leaders.length===2?leaders.join(' and ')+' may both be worth exploring':leaders[0]+' may be worth exploring';
+    box.innerHTML='<strong>'+esc(label)+'.</strong> This is a prompt for reflection, not a diagnosis or validated score.';
+    box.classList.add('show');
+    return {label,items:completed};
+  }
+
+  function setSignal(path){
+    $('#signalPath').value=path;
+    $$('.signal-tab').forEach(tab=>tab.setAttribute('aria-selected',String(tab.dataset.signal===path)));
+    $$('.signal-pane').forEach(pane=>{const active=pane.id===path+'Pane';pane.classList.toggle('active',active);pane.hidden=!active});
+    scheduleSave();
+  }
+
+  function updateDepthNote(){
+    const depth=getRadio('depth')||'honest';
+    const notes={
+      gentle:'Choose the least activating path. Brief, concrete answers are enough, and skipping is always valid.',
+      honest:'You do not need to process every difficult feeling at once. Choose one path that feels useful today. Each path offers possibilities, not a diagnosis.',
+      deep:'Depth does not require self attack. Stay specific, test alternative explanations and pause if the exercise stops feeling constructive.'
+    };
+    $('#depthNote').textContent=notes[depth];
+  }
+
+  function serializeFields(){
+    const fields={};
+    $$('[data-field]').forEach(el=>{
+      const key=el.dataset.field;
+      if(el.type==='radio'){
+        if(el.checked)fields[key]=el.value;
+      }else if(el.type==='checkbox')fields[key]=el.checked;
+      else fields[key]=el.value;
+    });
+    return fields;
+  }
+
+  function applyFields(fields={}){
+    $$('[data-field]').forEach(el=>{
+      const key=el.dataset.field;
+      if(!(key in fields))return;
+      if(el.type==='radio')el.checked=el.value===fields[key];
+      else if(el.type==='checkbox')el.checked=Boolean(fields[key]);
+      else el.value=fields[key];
+      if(el.type==='range')setRangeOutput(el);
+    });
+    storageMode=getRadio('storage')||'session';
+    setSignal(fields.signalPath||'envy');
+    updateEstimates();updateDepthNote();computeNeed();updateConfidence();updateClosingNotice();
+  }
+
+  function sessionState(){
+    return {version:VERSION,currentStep,startedAt,storageMode:getRadio('storage')||storageMode,fields:serializeFields(),rungs:rungValues(),savedAt:Date.now()};
+  }
+
+  function scheduleSave(){
+    clearTimeout(saveTimer);
+    $('#saveState').textContent='Saving privately...';
+    saveTimer=setTimeout(saveState,260);
+  }
+
+  function saveState(){
+    storageMode=getRadio('storage')||storageMode||'session';
+    const state=JSON.stringify(sessionState());
+    try{
+      if(storageMode==='device'){
+        localStorage.setItem(DEVICE_KEY,state);sessionStorage.removeItem(SESSION_KEY);
+        $('#saveState').textContent='Saved on this device';
+      }else{
+        sessionStorage.setItem(SESSION_KEY,state);localStorage.removeItem(DEVICE_KEY);
+        $('#saveState').textContent='Saved in this tab';
+      }
+    }catch(error){$('#saveState').textContent='Could not save · export before closing'}
+  }
+
+  function savedState(){
+    let deviceRaw=null,sessionRaw=null;
+    try{deviceRaw=localStorage.getItem(DEVICE_KEY)}catch(error){}
+    try{sessionRaw=sessionStorage.getItem(SESSION_KEY)}catch(error){}
+    for(const raw of [deviceRaw,sessionRaw]){
+      if(!raw)continue;
+      try{const parsed=JSON.parse(raw);if(parsed.version===VERSION)return parsed}catch(error){}
+    }
+    return null;
+  }
+
+  function restoreState(state,goToSavedStep=false){
+    if(!state)return;
+    startedAt=state.startedAt||null;
+    applyFields(state.fields||{});
+    $('#rungs').innerHTML='';rungCount=0;
+    (state.rungs?.length?state.rungs:['']).forEach(value=>addRung(value,false));
+    if(goToSavedStep){startTimer();showStep(Math.max(1,state.currentStep||1),{focus:false,save:false})}
+  }
+
+  function clearSaved(){
+    try{localStorage.removeItem(DEVICE_KEY)}catch(error){}
+    try{sessionStorage.removeItem(SESSION_KEY)}catch(error){}
+    $('#saveState').textContent='No saved session';
+  }
+
+  function updateConfidence(){
+    const score=Number($('#actionConfidence').value);
+    $('#confidenceNote').classList.toggle('show',score<7);
+  }
+
+  function updateClosingNotice(){
+    $('#closingNotice').hidden=Number($('#distressAfter').value)<8;
+  }
+
+  function signalSummary(){
+    const path=val('signalPath');
+    if(path==='hot')return [val('hotWhat'),val('hotResponse')].filter(Boolean).join('\nResponse: ');
+    if(path==='regret')return [val('regretWhat'),val('regretRepair')].filter(Boolean).join('\nRepair or forgiveness: ');
+    return [val('envyWhat'),val('envyControl')].filter(Boolean).join('\nWithin my control: ');
+  }
+
+  function landingData(){
+    const need=computeNeed();
+    const hypothesis=val('workingHypothesis')||rungValues().filter(Boolean).slice(-1)[0]||'Not yet defined';
+    const ifThen=(val('experimentCue')&&val('experimentAction'))?'If '+val('experimentCue')+', then I will '+val('experimentAction')+'.':'Not yet defined';
+    return {
+      date:new Date().toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'}),
+      focus:val('focusQuestion')||'Not explored',
+      hypothesis,
+      evidence:val('whyEvidence')||'Not recorded',
+      alternative:val('whyAlternative')||'Not recorded',
+      need:need.label,
+      needContext:val('needContext')||'Not recorded',
+      difficultSignal:signalSummary()||'Skipped',
+      boundary:val('boundaryAction')||val('boundaryCommunicate')||'Not defined',
+      goal:val('experimentGoal')||'Not defined',
+      ifThen,
+      minimum:val('experimentMinimum')||'Not defined',
+      fallback:val('experimentFallback')||'Not defined',
+      confidence:val('actionConfidence')+'/10',
+      support:val('resource')||'Not recorded',
+      note:val('noteToSelf')||'Not recorded',
+      state:'Energy '+val('energyBefore')+' to '+val('energyAfter')+' · emotional intensity '+val('distressBefore')+' to '+val('distressAfter')
+    };
+  }
+
+  function landingMarkdown(){
+    const d=landingData();
+    return '# Night Flight Landing Card\n\n'+d.date+'\n\n'+
+      '## What I explored\n'+d.focus+'\n\n'+
+      '## Working hypothesis\n'+d.hypothesis+'\n\n'+
+      '### Evidence from recent life\n'+d.evidence+'\n\n'+
+      '### Another possible explanation\n'+d.alternative+'\n\n'+
+      '## Need worth exploring\n'+d.need+'\n'+d.needContext+'\n\n'+
+      '## Difficult signal\n'+d.difficultSignal+'\n\n'+
+      '## Boundary within my control\n'+d.boundary+'\n\n'+
+      '## Seven day experiment\nGoal: '+d.goal+'\n\n'+d.ifThen+'\n\nMinimum version: '+d.minimum+'\n\nFallback: '+d.fallback+'\n\nConfidence: '+d.confidence+'\n\n'+
+      '## Support I can use\n'+d.support+'\n\n'+
+      '## Note to my seven day self\n'+d.note+'\n\n'+
+      '## State check\n'+d.state+'\n\n'+
+      '> These are working hypotheses, not a final description of me. I will review what experience confirmed, changed or contradicted.\n';
+  }
+
+  function fullLogText(){
+    const fields=serializeFields();
+    let text=landingMarkdown()+'\n---\n\n# Full Flight Log\n';
+    const labels={mentalDump:'Mental clearing',focusQuestion:'Focus question',whyEvidence:'Evidence',whyAlternative:'Alternative explanation',needContext:'Need context',envyWhat:'Comparison or envy',envyControl:'Within my control',envyTradeoff:'Unseen tradeoff',hotWhat:'Strong reaction',hotResponse:'Values based response',regretWhat:'Regret',regretResponsibility:'Responsibility',regretRepair:'Repair or forgiveness',boundarySituation:'Boundary situation',boundaryImpact:'Boundary impact',boundaryCommunicate:'Communication',boundaryAction:'Action within my control',workingHypothesis:'Working hypothesis',experimentGoal:'Seven day goal',experimentCue:'Cue',experimentAction:'Action',experimentMinimum:'Minimum version',experimentFallback:'Fallback',resource:'Support',noteToSelf:'Note to self'};
+    rungValues().filter(Boolean).forEach((value,index)=>{text+='\nWhy '+(index+1)+': '+value+'\n'});
+    Object.entries(labels).forEach(([key,label])=>{if(fields[key])text+='\n## '+label+'\n'+fields[key]+'\n'});
+    return text;
+  }
+
+  function renderLanding(){
+    const d=landingData();
+    const item=(label,value,full=false)=>'<div class="landing-item'+(full?' full':'')+'"><div class="landing-label">'+esc(label)+'</div><div class="landing-value">'+esc(value)+'</div></div>';
+    $('#landingCard').innerHTML='<div class="landing-head"><h3>Flight <em>YOU 002</em></h3><div class="stamp">'+esc(d.date)+'<br>Private reflection</div></div><div class="landing-grid">'+
+      item('What I explored',d.focus,true)+item('Working hypothesis',d.hypothesis,true)+item('Evidence',d.evidence)+item('Another explanation',d.alternative)+item('Need worth exploring',d.need+'\n'+d.needContext,true)+item('Difficult signal',d.difficultSignal,true)+item('Boundary within my control',d.boundary,true)+item('Seven day experiment',d.ifThen,true)+item('Minimum version',d.minimum)+item('Fallback',d.fallback)+item('Confidence',d.confidence)+item('Support I can use',d.support)+item('Note to my seven day self',d.note,true)+item('State check',d.state,true)+'</div>';
+    $('#fullLog').textContent=fullLogText();
+  }
+
+  async function download(name,content,type){
+    const blob=new Blob([content],{type});
+    const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+    if(standalone&&typeof File==='function'&&navigator.canShare){
+      const file=new File([blob],name,{type});
+      if(navigator.canShare({files:[file]})){
+        try{await navigator.share({files:[file],title:name});return}catch(error){if(error?.name==='AbortError')return}
+      }
+    }
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  async function copyText(text,button){
+    try{await navigator.clipboard.writeText(text)}catch(error){
+      const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();
+    }
+    const old=button.textContent;button.textContent='Copied';setTimeout(()=>button.textContent=old,1600);
+  }
+
+  function calendarFile(){
+    const date=new Date();date.setDate(date.getDate()+7);date.setHours(9,0,0,0);
+    const end=new Date(date.getTime()+20*60000);
+    const stamp=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+    return 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Night Flight//Reflection//EN\r\nBEGIN:VEVENT\r\nUID:'+Date.now()+'@night-flight\r\nDTSTAMP:'+stamp(new Date())+'\r\nDTSTART:'+stamp(date)+'\r\nDTEND:'+stamp(end)+'\r\nSUMMARY:Review Night Flight\r\nDESCRIPTION:Review what experience confirmed, changed or contradicted. Your private answers are not included in this reminder.\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n';
+  }
+
+  function registerOffline(){
+    const status=$('#offlineStatus');
+    if(location.protocol==='file:'){
+      status.innerHTML='<span class="status-dot"></span>Standalone file ready offline';return;
+    }
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{
+        status.innerHTML='<span class="status-dot"></span>Ready for offline use';
+      }).catch(()=>{status.textContent='Open once online before travelling'});
+    }else status.textContent='Offline installation unavailable in this browser';
+  }
+
+  function bindEvents(){
+    $$('input[type="range"]').forEach(input=>{setRangeOutput(input);input.addEventListener('input',()=>{setRangeOutput(input);if(input.id==='actionConfidence')updateConfidence();if(input.id==='distressAfter')updateClosingNotice();scheduleSave()})});
+    $$('[data-field]:not(input[type="range"])').forEach(el=>{el.addEventListener(el.tagName==='SELECT'||el.type==='radio'||el.type==='checkbox'?'change':'input',()=>{
+      if(el.name==='duration')updateEstimates();
+      if(el.name==='depth')updateDepthNote();
+      if(el.name==='storage'){storageMode=getRadio('storage');scheduleSave()}
+      if(el.classList.contains('need-select'))computeNeed();
+      scheduleSave();
+    })});
+    $('#beginBtn').addEventListener('click',()=>{
+      startedAt=Date.now();
+      if(getRadio('storage')==='device')navigator.storage?.persist?.().catch(()=>{});
+      startTimer();showStep(1);
+    });
+    $('#resumeBtn').addEventListener('click',()=>{const state=savedState();restoreState(state,true)});
+    $('#freshBtn').addEventListener('click',()=>{clearSaved();location.reload()});
+    $('#nextBtn').addEventListener('click',()=>showStep(currentStep+1));
+    $('#skipBtn').addEventListener('click',()=>showStep(currentStep+1));
+    $('#backBtn').addEventListener('click',()=>showStep(currentStep-1));
+    $('#addRungBtn').addEventListener('click',()=>addRung());
+    $('#removeRungBtn').addEventListener('click',removeRung);
+    $$('.signal-tab').forEach(tab=>tab.addEventListener('click',()=>setSignal(tab.dataset.signal)));
+    $('#groundBtn').addEventListener('click',()=>$('#groundDialog').showModal());
+    $('#closeGroundBtn').addEventListener('click',()=>$('#groundDialog').close());
+    $('#endSessionBtn').addEventListener('click',()=>{$('#groundDialog').close();showStep(7)});
+    $('#powerBtn').addEventListener('click',()=>{document.body.classList.toggle('low-power');$('#powerBtn').setAttribute('aria-pressed',String(document.body.classList.contains('low-power')))});
+    $('#downloadMdBtn').addEventListener('click',()=>download('night-flight-landing-card.md',landingMarkdown(),'text/markdown;charset=utf-8'));
+    $('#downloadJsonBtn').addEventListener('click',()=>download('night-flight-full-session.json',JSON.stringify(sessionState(),null,2),'application/json;charset=utf-8'));
+    $('#copyBtn').addEventListener('click',event=>copyText(landingMarkdown(),event.currentTarget));
+    $('#shareBtn').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'Night Flight Landing Card',text:landingMarkdown()})}catch(error){}}else copyText(landingMarkdown(),$('#shareBtn'))});
+    $('#calendarBtn').addEventListener('click',()=>download('review-night-flight.ics',calendarFile(),'text/calendar;charset=utf-8'));
+    $('#printBtn').addEventListener('click',()=>window.print());
+    $('#clearBtn').addEventListener('click',()=>{if(confirm('Erase the saved session from this browser? Your downloaded files will not be affected.')){clearSaved();$('#clearBtn').textContent='Saved session erased';}});
+    $('#restartBtn').addEventListener('click',()=>{if(confirm('Begin a fresh session? Export anything you want to keep first.')){clearSaved();location.reload()}});
+    document.addEventListener('focusin',event=>{
+      if(event.target.matches('textarea,input[type="text"]'))document.body.classList.add('low-power');
+      syncVisualViewport();setTimeout(syncVisualViewport,320);
+    });
+    document.addEventListener('focusout',event=>{
+      if(event.target.matches('textarea,input[type="text"]')&&$('#powerBtn').getAttribute('aria-pressed')!=='true')document.body.classList.remove('low-power');
+      setTimeout(()=>syncVisualViewport(true),320);
+    });
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)saveState()});
+    window.addEventListener('pagehide',saveState);
+    window.visualViewport?.addEventListener('resize',()=>syncVisualViewport());
+    window.addEventListener('resize',()=>{if(!window.visualViewport)syncVisualViewport(true)});
+    window.addEventListener('orientationchange',()=>setTimeout(()=>syncVisualViewport(true),350));
+  }
+
+  createAtmosphere();
+  syncVisualViewport(true);
+  addRung('',false);
+  bindEvents();
+  updateEstimates();
+  registerOffline();
+  const previous=savedState();
+  if(previous){restoreState(previous,false);$('#resumeBox').classList.add('show')}
+  showStep(0,{focus:false,save:false});
+})();
+</script>
+</body>
+</html>

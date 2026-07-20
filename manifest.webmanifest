@@ -1,0 +1,31 @@
+{
+  "name": "Night Flight | A private guided reset",
+  "short_name": "Night Flight",
+  "description": "A private guided reflection that works offline and turns one live question into a working hypothesis, a boundary and a seven day experiment.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080c1d",
+  "theme_color": "#0b1026",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
