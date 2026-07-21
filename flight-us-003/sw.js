@@ -1,4 +1,4 @@
-const CACHE_NAME = 'selfection-flight-us-003-v5-20260721';
+const CACHE_NAME = 'selfection-flight-us-003-v6-fraunces-20260721';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,6 +6,9 @@ const APP_SHELL = [
   './gsap.min.js',
   './MotionPathPlugin.min.js',
   './Flip.min.js',
+  './SplitText.min.js',
+  './fraunces-vf.woff2',
+  './fraunces-vf-italic.woff2',
   './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',

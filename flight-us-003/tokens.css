@@ -1,4 +1,14 @@
 /* Selfection shared foundations · source of truth for the anniversary mode */
+@font-face{
+  font-family:"Fraunces";
+  src:url("fraunces-vf.woff2") format("woff2");
+  font-weight:100 900;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Fraunces";
+  src:url("fraunces-vf-italic.woff2") format("woff2");
+  font-weight:100 900;font-style:italic;font-display:swap;
+}
 :root,
 :root[data-theme="day"]{
   color-scheme:light;
@@ -22,7 +32,7 @@
   --sf-world:linear-gradient(155deg,#eee8dd 0%,#e3ded5 50%,#ddd3c6 100%);
   --sf-atmosphere-a:radial-gradient(circle at 18% 20%,rgba(168,95,73,.14),transparent 32%),radial-gradient(circle at 80% 72%,rgba(141,100,43,.1),transparent 37%);
   --sf-atmosphere-b:radial-gradient(circle at 72% 14%,rgba(82,111,138,.13),transparent 31%),radial-gradient(circle at 34% 86%,rgba(168,95,73,.08),transparent 38%);
-  --sf-display:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sf-display:"Fraunces",ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
   --sf-body:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --sf-mono:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
 }

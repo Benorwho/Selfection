@@ -90,7 +90,12 @@ a{color:var(--gold)}
 .scene-inner.hero{align-items:flex-start}
 .kicker{display:flex;flex-wrap:wrap;align-items:center;gap:9px 16px;margin:0 0 14px;color:var(--gold);font:600 10px/1.5 var(--mono);letter-spacing:.17em;text-transform:uppercase}
 .kicker::before{content:"";width:32px;height:1px;background:currentColor}
-h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance;overflow-wrap:break-word}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance;overflow-wrap:break-word;font-variation-settings:"opsz" 60,"WONK" 1,"SOFT" 0}
+h1{font-variation-settings:"opsz" 110,"WONK" 1,"SOFT" 0}
+h2{font-variation-settings:"opsz" 76,"WONK" 1,"SOFT" 0}
+h1 em,h2 em,h3 em{font-variation-settings:"opsz" 96,"WONK" 1,"SOFT" 6}
+/* SplitText line-mask reveal */
+.st-line-wrap{overflow:hidden;display:block}
 h1{font-size:clamp(54px,10vw,116px);letter-spacing:-.045em}
 h2{font-size:clamp(41px,7vw,76px);letter-spacing:-.035em}
 h3{font-size:clamp(25px,4vw,38px)}
@@ -676,6 +681,7 @@ body.low-power .card{background:var(--sf-surface)}
 <script src="gsap.min.js"></script>
 <script src="MotionPathPlugin.min.js"></script>
 <script src="Flip.min.js"></script>
+<script src="SplitText.min.js"></script>
 <script>
 (function(){
   'use strict';
@@ -730,6 +736,8 @@ body.low-power .card{background:var(--sf-surface)}
   let activeSceneContext=null;
   let motionContext=null;
   let ambientContext=null;
+  let fontsReady=false;
+  let headingSplit=null;
   let reunionContext=null;
   let stableViewportHeight=window.visualViewport?.height||window.innerHeight;
   const photos=[{},{}];
@@ -793,8 +801,9 @@ body.low-power .card{background:var(--sf-surface)}
   function setupMotionSystem(){
     if(!window.gsap)return;
     try{
-      const plugins=[window.MotionPathPlugin,window.Flip].filter(Boolean);
+      const plugins=[window.MotionPathPlugin,window.Flip,window.SplitText].filter(Boolean);
       if(plugins.length)gsap.registerPlugin(...plugins);
+      document.fonts.ready.then(()=>{fontsReady=true});
       motionContext=gsap.context(()=>{
         if(!window.MotionPathPlugin)return;
         routeMotion.a=gsap.to('#planeA',{paused:true,duration:1,ease:'none',motionPath:{path:'#routeA',align:'#routeA',alignOrigin:[.5,.5],autoRotate:false}});
@@ -890,6 +899,7 @@ body.low-power .card{background:var(--sf-surface)}
   }
 
   function normaliseScenes(target){
+    headingSplit?.revert();headingSplit=null;
     $$('.scene').forEach(scene=>{
       const active=scene===target;
       if(window.gsap){gsap.set(scene,{clearProps:'display,opacity,visibility,transform,clipPath'});gsap.set(scene.querySelectorAll('.scene-inner > *'),{clearProps:'transform,opacity'});}
@@ -917,13 +927,20 @@ body.low-power .card{background:var(--sf-surface)}
           activeTransitionTimeline.set(to,{display:'block',autoAlpha:0},from?.06:0)
             .to(to,{autoAlpha:1,duration:.3,ease:'power1.out'},from?.06:0);
         }else{
-          // Full motion: the old scene banks away while the new one flies in and its
-          // contents rise in sequence, so a step reads unmistakably as travel.
-          const kids=to.querySelectorAll('.scene-inner > *');
-          if(from)activeTransitionTimeline.to(from,{autoAlpha:0,y:direction>0?-88:88,scale:.93,duration:.42,ease:'power2.in'},0);
-          activeTransitionTimeline.set(to,{display:'block',autoAlpha:1,scale:1,y:0},from?.2:0)
-            .from(to,{autoAlpha:0,y:direction>0?110:-110,scale:.95,duration:.82,ease:'power4.out'},from?.2:0)
-            .from(kids,{autoAlpha:0,y:34,duration:.55,ease:'power3.out',stagger:.07},from?.34:.14);
+          // Full motion: the old scene banks away while the new one flies in; its heading
+          // reveals line by line (kinetic type) and the rest rises after it.
+          const heading=to.querySelector('.scene-inner > h1, .scene-inner > h2');
+          const allKids=[...to.querySelectorAll('.scene-inner > *')];
+          const tl=activeTransitionTimeline;
+          headingSplit?.revert();headingSplit=null;
+          const canSplit=fontsReady&&window.SplitText&&heading;
+          if(canSplit)headingSplit=SplitText.create(heading,{type:'lines',mask:'lines',linesClass:'st-line'});
+          const kids=canSplit?allKids.filter(el=>el!==heading):allKids;
+          if(from)tl.to(from,{autoAlpha:0,y:direction>0?-88:88,scale:.93,duration:.42,ease:'power2.in'},0);
+          tl.set(to,{display:'block',autoAlpha:1,scale:1,y:0},from?.2:0)
+            .from(to,{autoAlpha:0,y:direction>0?110:-110,scale:.95,duration:.82,ease:'power4.out'},from?.2:0);
+          if(canSplit)tl.from(headingSplit.lines,{yPercent:120,duration:.9,ease:'power4.out',stagger:.11},from?.34:.14);
+          tl.from(kids,{autoAlpha:0,y:34,duration:.55,ease:'power3.out',stagger:.07},from?(canSplit?.46:.34):(canSplit?.24:.14));
         }
       });
     });
