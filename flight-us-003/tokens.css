@@ -1,0 +1,52 @@
+/* Selfection shared foundations · source of truth for the anniversary mode */
+:root,
+:root[data-theme="day"]{
+  color-scheme:light;
+  --sf-canvas:#f1ece2;
+  --sf-canvas-deep:#e4ddd1;
+  --sf-surface:#f8f4ec;
+  --sf-surface-soft:#ebe5da;
+  --sf-field:#f3eee5;
+  --sf-text:#0d1014;
+  --sf-text-muted:#5f625f;
+  --sf-line:rgba(13,16,20,.15);
+  --sf-line-strong:rgba(13,16,20,.3);
+  --sf-partner-a:#9f5643;
+  --sf-partner-b:#4b6882;
+  --sf-shared:#845b25;
+  --sf-on-accent:#fffaf2;
+  --sf-placeholder:#817f79;
+  --sf-star:#595e62;
+  --sf-bar:rgba(241,236,226,.96);
+  --sf-overlay:rgba(13,16,20,.66);
+  --sf-world:linear-gradient(155deg,#eee8dd 0%,#e3ded5 50%,#ddd3c6 100%);
+  --sf-atmosphere-a:radial-gradient(circle at 18% 20%,rgba(168,95,73,.14),transparent 32%),radial-gradient(circle at 80% 72%,rgba(141,100,43,.1),transparent 37%);
+  --sf-atmosphere-b:radial-gradient(circle at 72% 14%,rgba(82,111,138,.13),transparent 31%),radial-gradient(circle at 34% 86%,rgba(168,95,73,.08),transparent 38%);
+  --sf-display:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sf-body:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --sf-mono:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+
+:root[data-theme="night"]{
+  color-scheme:dark;
+  --sf-canvas:#0d1014;
+  --sf-canvas-deep:#14181c;
+  --sf-surface:#181c20;
+  --sf-surface-soft:#20252a;
+  --sf-field:#111519;
+  --sf-text:#f1ede5;
+  --sf-text-muted:#b8b4ac;
+  --sf-line:rgba(241,237,229,.16);
+  --sf-line-strong:rgba(241,237,229,.31);
+  --sf-partner-a:#d28b72;
+  --sf-partner-b:#86a4c0;
+  --sf-shared:#d1ab67;
+  --sf-on-accent:#0d1014;
+  --sf-placeholder:#888b8d;
+  --sf-star:#e7e2d9;
+  --sf-bar:rgba(13,16,20,.96);
+  --sf-overlay:rgba(4,6,8,.78);
+  --sf-world:linear-gradient(155deg,#0d1014 0%,#15191d 52%,#25201e 100%);
+  --sf-atmosphere-a:radial-gradient(circle at 18% 20%,rgba(210,139,114,.13),transparent 32%),radial-gradient(circle at 80% 72%,rgba(209,171,103,.1),transparent 37%);
+  --sf-atmosphere-b:radial-gradient(circle at 72% 14%,rgba(134,164,192,.13),transparent 31%),radial-gradient(circle at 34% 86%,rgba(210,139,114,.07),transparent 38%);
+}

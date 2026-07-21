@@ -2,6 +2,8 @@
 
 Flight US 003 is the couples anniversary mode for Selfection. It is a private, page by page reflection game designed for one laptop or iPad passed between two partners, with full iPhone adaptation.
 
+The visual system uses matte Japandi surfaces and shared Selfection foundations. Day Cabin is the default, with an optional Night Cabin toggle. Partner A uses clay, Partner B uses muted blue and the shared route uses warm ochre.
+
 ## Run locally
 
 Serve this directory through any static web server and open `index.html`. Opening the file directly also works, but offline installation requires a secure hosted origin such as GitHub Pages.
@@ -30,3 +32,5 @@ Photo previews remain in memory for the current session. They are not included i
 6. Test tab and device storage recovery.
 7. Test Markdown, JSON, calendar, copy and print outputs.
 8. Confirm the app shell loads offline after the first online visit.
+9. Stress rapid clicks, held arrow keys and repeated swipes while transitions are active.
+10. Confirm that Keep Private and Talk Later text never appears in shared reveals or the landing card.

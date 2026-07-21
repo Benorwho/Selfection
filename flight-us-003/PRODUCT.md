@@ -105,13 +105,13 @@ Navigation supports:
 3. Horizontal swipe gestures on touch devices.
 4. Direct Continue controls after private sealing and reveal interactions.
 
-GSAP controls scene entrances, exits, depth shifts, constellation movement, flight path convergence and reveal animations. Reduced Motion removes nonessential movement without removing content.
+GSAP controls scene entrances, exits, depth shifts, constellation movement and reveal animations. MotionPathPlugin moves each route marker along its own SVG path, while Flip turns the reunion from two separate positions into one converged layout. A centralized transition lock and managed GSAP contexts keep rapid taps, held keys and repeated swipes synchronized. Reduced Motion removes nonessential movement without removing content.
 
 ## Visual direction
 
-The visual world begins with two separate twilight routes. Private chapters use slightly different warm and cool accents for each partner. During reunion, the paths bend toward each other. The final planning and landing chapters share a dawn palette.
+The visual world begins with two separate routes. Private chapters use clay for the first partner and muted blue for the second partner. During reunion, the paths bend toward each other and resolve into warm ochre. Day Cabin is the default matte Japandi theme, with an optional Night Cabin for evening use.
 
-The desired atmosphere is intimate, elegant and slightly magical. It should feel closer to an interactive title sequence than a productivity dashboard.
+The desired atmosphere is intimate, elegant and slightly magical. Flat matte surfaces, grain and hairline borders connect it to the wider Selfection system. Motion carries the cinematic character rather than glass blur or decorative glow.
 
 ## Privacy model
 

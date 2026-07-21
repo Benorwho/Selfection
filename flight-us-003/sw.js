@@ -1,8 +1,11 @@
-const CACHE_NAME = 'selfection-flight-us-003-v1-20260721';
+const CACHE_NAME = 'selfection-flight-us-003-v2-20260721';
 const APP_SHELL = [
   './',
   './index.html',
+  './tokens.css',
   './gsap.min.js',
+  './MotionPathPlugin.min.js',
+  './Flip.min.js',
   './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',
