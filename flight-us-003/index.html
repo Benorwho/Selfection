@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17142d">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Flight US 003">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Flight US 003 | An anniversary reflection for two</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script>document.documentElement.className='js';</script>
+<style>
+:root{
+  --ink:#0b0b1c;
+  --ink-soft:#17142d;
+  --paper:#fff8ee;
+  --muted:#d3ccdc;
+  --peach:#ffbc9f;
+  --gold:#ffd58a;
+  --blue:#91b8ff;
+  --lilac:#bba8ff;
+  --rose:#ff9fbd;
+  --mint:#92d5c8;
+  --line:rgba(255,248,238,.19);
+  --line-strong:rgba(255,248,238,.38);
+  --glass:rgba(15,13,36,.72);
+  --shadow:0 28px 100px rgba(0,0,0,.28);
+  --display:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --body:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --safe-top:max(14px,env(safe-area-inset-top));
+  --safe-bottom:max(16px,env(safe-area-inset-bottom));
+}
+*{box-sizing:border-box}
+html{background:var(--ink);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;height:100vh;height:var(--app-height,100dvh);overflow:hidden;background:var(--ink);color:var(--paper);font:16px/1.55 var(--body);overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button,input,textarea,select{font:inherit}
+button,input,textarea,select,a{touch-action:manipulation}
+button{-webkit-appearance:none;appearance:none;-webkit-touch-callout:none}
+a{color:var(--gold)}
+::selection{background:var(--peach);color:var(--ink)}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* Living sky */
+.world{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:linear-gradient(155deg,#0a0a1c 0%,#171432 48%,#362241 100%)}
+.sky-layer{position:absolute;inset:-12%;opacity:.8;filter:saturate(115%);will-change:transform,opacity}
+.sky-a{background:radial-gradient(circle at 18% 20%,rgba(104,105,218,.34),transparent 31%),radial-gradient(circle at 80% 72%,rgba(250,131,151,.28),transparent 35%)}
+.sky-b{background:radial-gradient(circle at 72% 14%,rgba(72,145,196,.26),transparent 30%),radial-gradient(circle at 34% 86%,rgba(240,170,104,.24),transparent 36%);mix-blend-mode:screen}
+.grain{position:absolute;inset:0;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
+.stars{position:absolute;inset:0}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff9ed;opacity:.52;box-shadow:0 0 8px rgba(255,255,255,.36);animation:twinkle var(--twinkle,5s) ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.18;transform:scale(.8)}50%{opacity:.8;transform:scale(1.3)}}
+.flight-map{position:absolute;inset:5% 2% 3%;width:96%;height:92%;opacity:.62;overflow:visible}
+.route{fill:none;stroke-width:2;stroke-linecap:round;stroke-dasharray:3 13}
+.route-a{stroke:var(--peach)}
+.route-b{stroke:var(--blue)}
+.route-shared{stroke:var(--gold);stroke-width:2.6;opacity:.15}
+.plane-dot{filter:drop-shadow(0 0 8px currentColor)}
+.orb{position:absolute;width:min(42vw,580px);aspect-ratio:1;border:1px solid rgba(255,255,255,.09);border-radius:50%;left:50%;top:52%;transform:translate(-50%,-50%);box-shadow:inset 0 0 80px rgba(255,255,255,.018)}
+.orb::after{content:"";position:absolute;inset:18%;border:1px solid rgba(255,255,255,.055);border-radius:50%}
+
+/* Shell */
+.app{position:relative;z-index:2;height:100%;isolation:isolate}
+.topbar{position:fixed;z-index:50;top:0;left:0;right:0;padding:var(--safe-top) max(18px,env(safe-area-inset-right)) 12px max(18px,env(safe-area-inset-left));background:linear-gradient(180deg,rgba(6,6,18,.92),rgba(6,6,18,.46) 68%,transparent)}
+.top-row{max-width:1240px;margin:auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;font:600 10px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.brand{color:var(--paper)}
+.phase{text-align:center;color:var(--gold)}
+.status{text-align:right;color:var(--muted)}
+.progress{display:block;width:min(1240px,100%);height:2px;margin:11px auto 0;border:0;background:rgba(255,255,255,.12);overflow:hidden}
+.progress::-webkit-progress-bar{background:rgba(255,255,255,.12)}
+.progress::-webkit-progress-value{background:linear-gradient(90deg,var(--peach),var(--gold),var(--blue));transition:width .55s ease;box-shadow:0 0 15px rgba(255,213,138,.58)}
+.progress::-moz-progress-bar{background:linear-gradient(90deg,var(--peach),var(--gold),var(--blue))}
+.utility{position:fixed;z-index:55;right:max(18px,env(safe-area-inset-right));top:72px;display:flex;gap:8px}
+.round-btn{width:46px;height:46px;min-height:46px;border:1px solid var(--line-strong);border-radius:50%;background:rgba(8,8,24,.78);color:var(--paper);cursor:pointer;backdrop-filter:blur(10px);display:grid;place-items:center}
+.round-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Page by page scenes */
+.scenes{position:relative;height:100%}
+.scene{position:absolute;inset:0;visibility:hidden;opacity:0;pointer-events:none;padding:108px max(22px,env(safe-area-inset-right)) calc(100px + env(safe-area-inset-bottom)) max(22px,env(safe-area-inset-left));overflow:hidden}
+.scene.active{visibility:visible;opacity:1;pointer-events:auto}
+.scene-scroll{width:100%;height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.25) transparent}
+.scene-inner{width:min(850px,100%);min-height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;padding:26px 0}
+.scene-inner.wide{width:min(1100px,100%)}
+.scene-inner.hero{align-items:flex-start}
+.kicker{display:flex;flex-wrap:wrap;align-items:center;gap:9px 16px;margin:0 0 14px;color:var(--gold);font:600 10px/1.5 var(--mono);letter-spacing:.17em;text-transform:uppercase}
+.kicker::before{content:"";width:32px;height:1px;background:currentColor}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+h1{font-size:clamp(54px,10vw,116px);letter-spacing:-.045em}
+h2{font-size:clamp(41px,7vw,76px);letter-spacing:-.035em}
+h3{font-size:clamp(25px,4vw,38px)}
+em{font-weight:400;color:var(--gold)}
+.lede{max-width:64ch;margin:21px 0 0;color:#e7e0eb;font-size:clamp(17px,2vw,21px)}
+.helper{margin:8px 0 0;color:var(--muted);font-size:13px}
+.micro{font:500 11px/1.5 var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.quote{margin:22px 0 0;padding-left:18px;border-left:2px solid var(--gold);font:italic 22px/1.45 var(--display);color:#f3eaf2}
+
+/* Cards and controls */
+.card{margin-top:28px;padding:clamp(20px,4vw,34px);border:1px solid var(--line);border-radius:24px;background:var(--glass);box-shadow:var(--shadow);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.card.soft{background:rgba(18,16,42,.54)}
+.card.gold{border-color:rgba(255,213,138,.46);box-shadow:0 0 0 1px rgba(255,213,138,.06),var(--shadow)}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.stack{display:grid;gap:16px}
+.field-spaced,.grid-spaced{margin-top:24px}
+.text-center{text-align:center}
+.center-row{justify-content:center}
+.field{display:grid;gap:8px}
+.field+.field{margin-top:20px}
+.field label,.field legend{font:italic 400 20px/1.3 var(--display);color:var(--paper)}
+.field small{color:var(--muted);font-size:12px}
+input[type="text"],input[type="date"],textarea,select{
+  width:100%;min-height:50px;border:1px solid var(--line-strong);border-radius:13px;background:rgba(5,5,18,.54);color:var(--paper);padding:13px 14px;font-size:16px;outline:none
+}
+textarea{min-height:112px;resize:vertical;line-height:1.5;-webkit-overflow-scrolling:touch}
+textarea.tall{min-height:175px}
+input::placeholder,textarea::placeholder{color:#9e96aa}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,213,138,.16)}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+.choice-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.choice{position:relative;display:block}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{height:100%;min-height:78px;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(5,5,18,.38);display:flex;flex-direction:column;justify-content:center;gap:3px;cursor:pointer;transition:.2s ease}
+.choice strong{font-size:14px}
+.choice small{font-size:11px;color:var(--muted)}
+.choice input:checked+span{border-color:var(--gold);background:rgba(255,213,138,.12);box-shadow:0 0 0 1px var(--gold)}
+.agreement-list{display:grid;gap:11px}
+.agreement{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(5,5,18,.28);cursor:pointer}
+.agreement input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--gold)}
+.agreement strong{display:block;margin-bottom:2px}
+.agreement small{display:block;color:var(--muted)}
+.word-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:word}
+.word-field{position:relative}
+.word-field::before{counter-increment:word;content:"0" counter(word);position:absolute;z-index:2;left:13px;top:14px;color:var(--gold);font:500 10px/1 var(--mono)}
+.word-field input{padding-left:40px}
+.memory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.memory-card{padding:18px;border:1px solid var(--line);border-radius:18px;background:rgba(5,5,18,.3)}
+.memory-card textarea{min-height:130px}
+.photo-input{margin-top:10px}
+.photo-input input{position:absolute;width:1px;height:1px;opacity:0}
+.photo-label{min-height:46px;border:1px dashed var(--line-strong);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:12px;cursor:pointer;overflow:hidden}
+.photo-preview{display:none;width:100%;height:145px;object-fit:cover;border-radius:10px}
+.photo-label.has-photo{display:block;padding:4px}
+.photo-label.has-photo .photo-copy{display:none}
+.photo-label.has-photo .photo-preview{display:block}
+.visibility{display:grid;grid-template-columns:minmax(0,1fr) 145px;gap:10px;align-items:end}
+.direction-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:20px}
+.direction{position:relative}
+.direction input{position:absolute;opacity:0;pointer-events:none}
+.direction span{min-height:94px;padding:12px 8px;border:1px solid var(--line);border-radius:16px;background:rgba(5,5,18,.34);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px;cursor:pointer;transition:.22s ease;font-size:12px}
+.direction i{font-style:normal;font-size:22px}
+.direction input:checked+span{border-color:var(--gold);background:rgba(255,213,138,.13);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.direction input:disabled+span{opacity:.46;cursor:not-allowed}
+.selection-count{margin-top:12px;text-align:center;color:var(--gold);font:500 11px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+
+/* Buttons and navigation */
+.btn-row{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.btn{min-height:50px;border:1px solid var(--line-strong);border-radius:999px;padding:12px 21px;background:rgba(7,7,22,.62);color:var(--paper);font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.btn:hover{transform:translateY(-1px);border-color:var(--gold)}
+.btn.primary{border-color:var(--gold);background:var(--gold);color:#17101d}
+.btn.primary:hover{background:#ffe2ac}
+.btn.soft{background:rgba(255,255,255,.08)}
+.btn.small{min-height:42px;padding:9px 16px;font-size:13px}
+.btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.nav{position:fixed;z-index:50;left:0;right:0;bottom:0;padding:12px max(18px,env(safe-area-inset-right)) var(--safe-bottom) max(18px,env(safe-area-inset-left));background:linear-gradient(0deg,rgba(6,6,18,.96),rgba(6,6,18,.62) 64%,transparent);display:none}
+.nav.show{display:block}
+.nav-inner{max-width:1240px;margin:auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px}
+.nav .back{justify-self:start}
+.nav-label{font:600 10px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center}
+.nav .next{justify-self:end}
+
+/* Pass, reunion and reveals */
+.pass-device{text-align:center;align-items:center}
+.pass-device .seal{width:min(180px,48vw);aspect-ratio:1;margin:0 auto 26px;border:1px solid rgba(255,213,138,.48);border-radius:50%;display:grid;place-items:center;font:400 clamp(46px,10vw,82px)/1 var(--display);color:var(--gold);box-shadow:0 0 80px rgba(255,213,138,.14),inset 0 0 50px rgba(255,213,138,.06)}
+.name-orbit{display:flex;align-items:center;justify-content:center;gap:18px;margin:25px 0}
+.name-orbit span{padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(5,5,18,.42)}
+.name-orbit i{width:62px;height:1px;background:linear-gradient(90deg,var(--peach),var(--gold),var(--blue));box-shadow:0 0 12px var(--gold)}
+.reveal-stage{margin-top:26px;display:grid;gap:16px}
+.person-panel{padding:22px;border:1px solid var(--line);border-radius:20px;background:rgba(5,5,18,.39)}
+.person-panel.a{border-top-color:var(--peach)}
+.person-panel.b{border-top-color:var(--blue)}
+.person-name{margin-bottom:14px;color:var(--gold);font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.word-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.word-cloud span{padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.055);font-family:var(--display);font-size:18px}
+.memory-reveal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.memory-reveal{min-height:150px;padding:16px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.035);overflow:hidden}
+.memory-reveal img{width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:11px}
+.memory-reveal small{display:block;margin-bottom:6px;color:var(--gold);font:500 9px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.prediction-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.prediction-card{position:relative;min-height:260px;padding:20px;border:1px solid var(--line);border-radius:20px;background:rgba(5,5,18,.47);overflow:hidden;perspective:800px}
+.prediction-card.revealed{border-color:rgba(255,213,138,.46)}
+.prediction-label{color:var(--muted);font:500 9px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.prediction-text{margin:8px 0 15px;font:400 21px/1.35 var(--display)}
+.actual-wrap{position:relative;padding:14px;border-radius:13px;background:rgba(255,213,138,.09);min-height:92px}
+.actual-wrap::after{content:"Tap reveal to discover";position:absolute;inset:0;border-radius:13px;background:rgba(16,13,35,.96);display:grid;place-items:center;color:var(--gold);font:500 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;transition:.35s ease}
+.revealed .actual-wrap::after{opacity:0;visibility:hidden;transform:scale(1.08)}
+.reaction-row{display:none;flex-wrap:wrap;gap:7px;margin-top:14px}
+.revealed .reaction-row{display:flex}
+.reaction{min-height:38px;border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:rgba(255,255,255,.04);color:var(--muted);font-size:11px;cursor:pointer}
+.reaction.selected{border-color:var(--gold);color:var(--paper);background:rgba(255,213,138,.12)}
+.curiosity-meter{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--gold);font:600 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.compare-item{padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035)}
+.compare-item small{display:block;margin-bottom:6px;color:var(--gold);font:500 9px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.sealed-note{padding:18px;border:1px dashed var(--line-strong);border-radius:15px;text-align:center;color:var(--muted)}
+.destination-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.destination-column{padding:18px;border:1px solid var(--line);border-radius:17px;background:rgba(5,5,18,.36)}
+.destination-column.shared{border-color:var(--gold);background:rgba(255,213,138,.08)}
+.destination-column ul{margin:12px 0 0;padding-left:20px}
+
+/* Landing deck */
+.landing-card{margin-top:28px;border:1px solid rgba(255,213,138,.54);border-radius:28px;overflow:hidden;background:linear-gradient(145deg,rgba(32,25,54,.95),rgba(10,10,27,.96));box-shadow:0 35px 120px rgba(0,0,0,.38)}
+.landing-head{padding:28px;display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);background:radial-gradient(circle at 18% 0%,rgba(255,188,159,.18),transparent 42%),radial-gradient(circle at 88% 20%,rgba(145,184,255,.16),transparent 44%)}
+.landing-head h3{font-size:clamp(32px,6vw,58px)}
+.stamp{text-align:right;color:var(--muted);font:500 10px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.landing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.landing-item{padding:21px 24px;border-bottom:1px solid var(--line)}
+.landing-item:nth-child(odd){border-right:1px solid var(--line)}
+.landing-item.full{grid-column:1/-1;border-right:0}
+.landing-label{margin-bottom:6px;color:var(--gold);font:500 9px/1.4 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.landing-value{white-space:pre-wrap;color:#f5edf4}
+.export-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+
+/* Dialogs */
+dialog{width:min(620px,calc(100% - 28px));border:1px solid var(--line-strong);border-radius:24px;padding:0;background:#12102b;color:var(--paper);box-shadow:0 35px 120px #000}
+dialog::backdrop{background:rgba(4,4,13,.82);backdrop-filter:blur(8px)}
+.dialog-body{padding:28px}
+.dialog-body h3{margin-bottom:12px}
+.breath{width:86px;aspect-ratio:1;margin:18px auto;border:1px solid var(--mint);border-radius:50%;box-shadow:0 0 35px rgba(146,213,200,.2);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.75);opacity:.55}50%{transform:scale(1);opacity:1}}
+.privacy-curtain{position:fixed;z-index:100;inset:0;background:radial-gradient(circle at 50% 40%,#2b2247,#0a0919 68%);display:none;place-items:center;text-align:center;padding:28px}
+.privacy-curtain.show{display:grid}
+.privacy-curtain-inner{width:min(560px,100%)}
+.privacy-mark{width:110px;aspect-ratio:1;margin:0 auto 22px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-size:40px}
+.resume-box{display:none;margin-top:18px;padding:15px;border:1px solid rgba(255,213,138,.42);border-radius:15px;background:rgba(255,213,138,.08)}
+.resume-box.show{display:block}
+
+/* State changes */
+body[data-phase="private-a"]{--gold:var(--peach)}
+body[data-phase="private-b"]{--gold:var(--blue)}
+body[data-phase="shared"]{--gold:#ffd58a}
+body.keyboard-open .topbar,body.keyboard-open .nav,body.keyboard-open .utility{display:none!important}
+body.keyboard-open .scene{padding-top:12px;padding-bottom:12px}
+body.keyboard-open .scene-inner{justify-content:flex-start;padding-top:8px}
+body.low-power .star{animation-play-state:paused}
+body.low-power .card{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(15,13,36,.95)}
+
+@media (max-width:850px){
+  .direction-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .memory-grid,.grid-3{grid-template-columns:1fr}
+  .memory-card{display:grid;grid-template-columns:1fr minmax(150px,.55fr);gap:14px;align-items:start}
+  .memory-card .field{grid-column:1}
+  .memory-card .photo-input{grid-column:2;grid-row:1;margin:0}
+  .choice-row{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  .top-row{grid-template-columns:1fr auto}.phase{display:none}
+  .utility{top:62px}
+  .scene{padding-top:96px;padding-left:max(15px,env(safe-area-inset-left));padding-right:max(15px,env(safe-area-inset-right));padding-bottom:calc(94px + env(safe-area-inset-bottom))}
+  .scene-inner{justify-content:flex-start;padding-top:18px}
+  h1{font-size:clamp(50px,17vw,78px)}
+  h2{font-size:clamp(39px,12vw,58px)}
+  .card{margin-top:21px;border-radius:20px;padding:19px}
+  .grid-2,.compare-grid,.prediction-grid,.destination-board{grid-template-columns:1fr}
+  .word-grid{grid-template-columns:1fr}
+  .memory-card{display:block}.memory-card .photo-input{margin-top:10px}
+  .visibility{grid-template-columns:1fr}
+  .memory-reveal-grid{grid-template-columns:1fr}
+  .landing-grid{grid-template-columns:1fr}.landing-item,.landing-item:nth-child(odd){grid-column:1;border-right:0}
+  .landing-head{display:block}.stamp{text-align:left;margin-top:12px}
+  .nav-inner{grid-template-columns:auto 1fr auto}.nav-label{font-size:8px}
+  .btn{padding:11px 17px}
+}
+@media (max-height:620px) and (orientation:landscape){
+  .scene{padding-top:78px;padding-bottom:80px}
+  .scene-inner{justify-content:flex-start;padding-top:8px}
+  h1{font-size:50px}h2{font-size:42px}
+  .utility{top:55px}.topbar{padding-top:8px}
+}
+@media (hover:none) and (pointer:coarse){
+  .card{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .star:nth-child(n+51){display:none}
+  input[type="text"],input[type="date"],textarea,select{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+@media print{
+  @page{margin:14mm}
+  body{height:auto;overflow:visible;background:#fff;color:#111}
+  .world,.topbar,.utility,.nav,.scene:not(#landing),.export-row,.privacy-curtain{display:none!important}
+  #landing{position:static!important;visibility:visible!important;opacity:1!important;padding:0!important;overflow:visible!important}
+  #landing .scene-scroll,#landing .scene-inner{height:auto;overflow:visible;padding:0}
+  #landing .kicker,#landing>*>*>h2,#landing .lede{display:none}
+  .landing-card{margin:0;background:#fff;color:#111;box-shadow:none;border-color:#777}
+  .landing-value{color:#111}.landing-label{color:#6b4d00}.landing-item,.landing-head{border-color:#bbb}
+}
+</style>
+</head>
+<body data-phase="boarding">
+<div class="world" aria-hidden="true">
+  <div class="sky-layer sky-a"></div>
+  <div class="sky-layer sky-b"></div>
+  <div class="grain"></div>
+  <div class="stars" id="stars"></div>
+  <div class="orb"></div>
+  <svg class="flight-map" viewBox="0 0 1200 700" preserveAspectRatio="none">
+    <path class="route route-a" id="routeA" d="M40 590 C210 510 250 220 480 330 C600 390 610 420 690 390"/>
+    <path class="route route-b" id="routeB" d="M1160 100 C950 170 920 500 740 410 C710 395 700 390 690 390"/>
+    <path class="route route-shared" id="routeShared" d="M690 390 C810 370 870 250 980 250 C1070 250 1110 300 1170 285"/>
+    <circle class="plane-dot" id="planeA" r="5" fill="#ffbc9f" color="#ffbc9f" cx="40" cy="590"/>
+    <circle class="plane-dot" id="planeB" r="5" fill="#91b8ff" color="#91b8ff" cx="1160" cy="100"/>
+    <circle class="plane-dot" id="planeShared" r="6" fill="#ffd58a" color="#ffd58a" cx="690" cy="390" opacity="0"/>
+  </svg>
+</div>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="top-row">
+      <div class="brand">Flight US 003</div>
+      <div class="phase" id="phaseLabel">Boarding</div>
+      <div class="status" id="offlineStatus">Private by design</div>
+    </div>
+    <progress class="progress" id="journeyProgress" max="100" value="0" aria-label="Session progress">0%</progress>
+  </header>
+
+  <div class="utility">
+    <button class="round-btn" id="privacyBtn" type="button" aria-label="Hide the screen" title="Hide the screen">◉</button>
+    <button class="round-btn" id="pauseBtn" type="button" aria-label="Pause and reset" title="Pause and reset">◎</button>
+  </div>
+
+  <main class="scenes" id="scenes">
+    <section class="scene active" id="welcome" data-title="Boarding" aria-labelledby="welcomeTitle">
+      <div class="scene-scroll"><div class="scene-inner hero wide">
+        <div class="kicker">Anniversary edition · two travellers · one shared route</div>
+        <h1 id="welcomeTitle">Flight <em>US 003</em></h1>
+        <p class="lede">A private reflection game for two. Remember the year differently, discover what surprised you, and choose what you want to create next.</p>
+        <p class="quote">You are not here to score the relationship. You are here to notice it.</p>
+        <div class="btn-row"><button class="btn primary" type="button" data-action="next">Begin boarding <span aria-hidden="true">→</span></button><a class="btn soft" href="../">Return to solo Night Flight</a></div>
+        <div class="resume-box" id="resumeBox">
+          <strong>A saved flight is waiting.</strong>
+          <p class="helper">Continue from the last scene or begin again.</p>
+          <div class="btn-row"><button class="btn small primary" type="button" id="resumeBtn">Resume flight</button><button class="btn small" type="button" id="freshBtn">Begin fresh</button></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="setup" data-title="Set your route" aria-labelledby="setupTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Boarding card</div>
+        <h2 id="setupTitle">Who is <em>travelling?</em></h2>
+        <p class="lede">The experience works best on one laptop or iPad passed between you. An iPhone works too.</p>
+        <div class="card">
+          <div class="grid-2">
+            <div class="field"><label for="nameA">First traveller</label><input id="nameA" type="text" data-session-field="nameA" autocomplete="name" placeholder="Your name"></div>
+            <div class="field"><label for="nameB">Second traveller</label><input id="nameB" type="text" data-session-field="nameB" autocomplete="name" placeholder="Your partner's name"></div>
+            <div class="field"><label for="anniversaryDate">Anniversary date</label><input id="anniversaryDate" type="date" data-session-field="anniversaryDate"></div>
+            <fieldset class="field"><legend>Choose your pace</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="duration" value="60" data-session-field="duration"><span><strong>60 min</strong><small>Light and warm</small></span></label>
+                <label class="choice"><input type="radio" name="duration" value="90" data-session-field="duration" checked><span><strong>90 min</strong><small>Recommended</small></span></label>
+                <label class="choice"><input type="radio" name="duration" value="120" data-session-field="duration"><span><strong>120 min</strong><small>Slow and deep</small></span></label>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset class="field field-spaced"><legend>Where should text be saved?</legend>
+            <div class="choice-row">
+              <label class="choice"><input type="radio" name="storage" value="session" data-session-field="storage" checked><span><strong>This tab</strong><small>Clears when the tab session ends</small></span></label>
+              <label class="choice"><input type="radio" name="storage" value="device" data-session-field="storage"><span><strong>This device</strong><small>Persists in this browser profile</small></span></label>
+              <label class="choice"><input type="radio" name="storage" value="none" data-session-field="storage"><span><strong>Do not save</strong><small>Export before closing</small></span></label>
+            </div>
+          </fieldset>
+          <p class="helper">No answers are transmitted. Device storage is convenient but is not encrypted. Photos remain only in memory for this open session.</p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="agreement" data-title="Cabin agreement" aria-labelledby="agreementTitle">
+      <div class="scene-scroll"><div class="scene-inner">
+        <div class="kicker">Before takeoff</div>
+        <h2 id="agreementTitle">A small agreement for <em>honesty</em></h2>
+        <div class="card">
+          <div class="agreement-list">
+            <label class="agreement"><input type="checkbox"><span><strong>Listen before explaining</strong><small>Ask one curious question before responding to a surprising answer.</small></span></label>
+            <label class="agreement"><input type="checkbox"><span><strong>Difference is not failure</strong><small>Two people can remember the same year differently without either memory being wrong.</small></span></label>
+            <label class="agreement"><input type="checkbox"><span><strong>Talk Later is a valid answer</strong><small>Neither person has to process difficult material on demand.</small></span></label>
+            <label class="agreement"><input type="checkbox"><span><strong>No relationship score</strong><small>This is a guided ritual, not a test, diagnosis or replacement for professional support.</small></span></label>
+          </div>
+          <p class="helper">You can use the pause control at any time. Skipping a prompt is always allowed.</p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privateWords" data-title="Three words" aria-labelledby="privateWordsTitle">
+      <div class="scene-scroll"><div class="scene-inner">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 01</div>
+        <h2 id="privateWordsTitle">Your year in <em>three words</em></h2>
+        <p class="lede">Choose the words that feel true to you, not the words that describe how the year was supposed to feel.</p>
+        <div class="card">
+          <div class="word-grid">
+            <div class="word-field"><label class="sr-only" for="word0">First word</label><input id="word0" type="text" data-person-field="words.0" placeholder="A word"></div>
+            <div class="word-field"><label class="sr-only" for="word1">Second word</label><input id="word1" type="text" data-person-field="words.1" placeholder="A word"></div>
+            <div class="word-field"><label class="sr-only" for="word2">Third word</label><input id="word2" type="text" data-person-field="words.2" placeholder="A word"></div>
+          </div>
+          <div class="field"><label for="yearSentence">Complete one sentence</label><textarea id="yearSentence" data-person-field="yearSentence" placeholder="This was the year we..."></textarea></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privateMemories" data-title="Three scenes" aria-labelledby="privateMemoriesTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 02</div>
+        <h2 id="privateMemoriesTitle">Three scenes worth <em>keeping</em></h2>
+        <p class="lede">A relationship is often carried by ordinary moments as much as milestones.</p>
+        <div class="memory-grid">
+          <article class="memory-card"><div class="field"><label for="memoryJoy">A joyful moment</label><textarea id="memoryJoy" data-person-field="memories.joy" placeholder="Where were you? What made it feel alive?"></textarea></div><div class="photo-input"><input id="photoJoy" type="file" accept="image/*" data-photo="joy"><label class="photo-label" for="photoJoy"><span class="photo-copy">＋ Add an optional photo</span><img class="photo-preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Selected joyful memory"></label></div></article>
+          <article class="memory-card"><div class="field"><label for="memoryHard">A difficult moment</label><textarea id="memoryHard" data-person-field="memories.hard" placeholder="What did it ask from you or teach you?"></textarea></div><div class="photo-input"><input id="photoHard" type="file" accept="image/*" data-photo="hard"><label class="photo-label" for="photoHard"><span class="photo-copy">＋ Add an optional photo</span><img class="photo-preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Selected difficult memory"></label></div></article>
+          <article class="memory-card"><div class="field"><label for="memoryOrdinary">A beautifully ordinary moment</label><textarea id="memoryOrdinary" data-person-field="memories.ordinary" placeholder="Something small you never want to forget"></textarea></div><div class="photo-input"><input id="photoOrdinary" type="file" accept="image/*" data-photo="ordinary"><label class="photo-label" for="photoOrdinary"><span class="photo-copy">＋ Add an optional photo</span><img class="photo-preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Selected ordinary memory"></label></div></article>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privateInner" data-title="What you experienced" aria-labelledby="privateInnerTitle">
+      <div class="scene-scroll"><div class="scene-inner">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 03</div>
+        <h2 id="privateInnerTitle">What was happening <em>inside?</em></h2>
+        <div class="card stack">
+          <div class="field"><label for="feltLoved">When did you feel most loved or supported by <span data-partner-name>your partner</span>?</label><textarea id="feltLoved" data-person-field="inner.loved" placeholder="A specific moment helps"></textarea></div>
+          <div class="field"><label for="feltHard">What was hardest for you this year?</label><textarea id="feltHard" data-person-field="inner.hard" placeholder="This can be inside or outside the relationship"></textarea></div>
+          <div class="field"><label for="feltProud">What are you proud of in yourself, your partner or the two of you?</label><textarea id="feltProud" data-person-field="inner.proud" placeholder="Something worth noticing"></textarea></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privateFuture" data-title="More, less, protect" aria-labelledby="privateFutureTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 04</div>
+        <h2 id="privateFutureTitle">More, less and <em>protect</em></h2>
+        <div class="card">
+          <div class="grid-2">
+            <div class="field"><label for="wantMore">I want more of…</label><textarea id="wantMore" data-person-field="future.more" placeholder="A feeling, ritual, behaviour or experience"></textarea></div>
+            <div class="field"><label for="wantLess">I want less of…</label><textarea id="wantLess" data-person-field="future.less" placeholder="Name a pattern without attacking a person"></textarea></div>
+            <div class="field"><label for="wantProtect">I want us to protect…</label><textarea id="wantProtect" data-person-field="future.protect" placeholder="Something already valuable"></textarea></div>
+            <div class="field"><label for="needSupport">I need your help with…</label><textarea id="needSupport" data-person-field="future.support" placeholder="Make the support observable if you can"></textarea></div>
+          </div>
+          <div class="field"><label for="personalDream">A personal dream quietly becoming more important to me is…</label><textarea id="personalDream" data-person-field="future.dream" placeholder="It does not have to be a shared dream to deserve support"></textarea></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privatePredictions" data-title="Guess your partner" aria-labelledby="privatePredictionsTitle">
+      <div class="scene-scroll"><div class="scene-inner">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 05</div>
+        <h2 id="privatePredictionsTitle">How well can you <em>guess?</em></h2>
+        <p class="lede">Predict what <span data-partner-name>your partner</span> might have written. A plot twist is as valuable as a match.</p>
+        <div class="card stack">
+          <div class="field"><label for="predictLoved">When do you think they felt most loved by you?</label><textarea id="predictLoved" data-person-field="predictions.loved" placeholder="Your prediction"></textarea></div>
+          <div class="field"><label for="predictMore">What do you think they want more of?</label><textarea id="predictMore" data-person-field="predictions.more" placeholder="Your prediction"></textarea></div>
+          <div class="field"><label for="predictDream">Which personal dream is becoming more important to them?</label><textarea id="predictDream" data-person-field="predictions.dream" placeholder="Your prediction"></textarea></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privateBaggage" data-title="Baggage claim" aria-labelledby="privateBaggageTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 06</div>
+        <h2 id="privateBaggageTitle">What should not travel <em>unchanged?</em></h2>
+        <p class="lede">Choose whether each answer is shared now, reserved for another conversation or kept private.</p>
+        <div class="card stack">
+          <div class="visibility"><div class="field"><label for="baggageLeave">Something I would like us to leave in year three</label><textarea id="baggageLeave" data-person-field="baggage.leave" placeholder="A pattern, assumption or pressure"></textarea></div><div class="field"><label for="leaveVisibility">Visibility</label><select id="leaveVisibility" data-person-field="baggage.leaveVisibility"><option value="share">Share Now</option><option value="later">Talk Later</option><option value="private">Keep Private</option></select></div></div>
+          <div class="visibility"><div class="field"><label for="baggageResponsibility">Something I can take more responsibility for</label><textarea id="baggageResponsibility" data-person-field="baggage.responsibility" placeholder="Keep the focus on what is within your control"></textarea></div><div class="field"><label for="responsibilityVisibility">Visibility</label><select id="responsibilityVisibility" data-person-field="baggage.responsibilityVisibility"><option value="share">Share Now</option><option value="later">Talk Later</option><option value="private">Keep Private</option></select></div></div>
+          <div class="visibility"><div class="field"><label for="baggageForgive">Something I want to forgive, repair or soften around</label><textarea id="baggageForgive" data-person-field="baggage.forgive" placeholder="You do not need to force forgiveness"></textarea></div><div class="field"><label for="forgiveVisibility">Visibility</label><select id="forgiveVisibility" data-person-field="baggage.forgiveVisibility"><option value="share">Share Now</option><option value="later">Talk Later</option><option value="private">Keep Private</option></select></div></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene private-scene" id="privateDirections" data-title="Choose three directions" aria-labelledby="privateDirectionsTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker"><span data-active-name>Traveller</span> · private capsule 07</div>
+        <h2 id="privateDirectionsTitle">Choose three future <em>directions</em></h2>
+        <p class="lede">Select what deserves more shared attention during your next year. This is direction, not a complete plan.</p>
+        <div class="direction-grid" id="directionGrid">
+          <label class="direction"><input type="checkbox" value="Home and stability"><span><i>⌂</i>Home and stability</span></label>
+          <label class="direction"><input type="checkbox" value="Adventure and travel"><span><i>✦</i>Adventure and travel</span></label>
+          <label class="direction"><input type="checkbox" value="Career growth"><span><i>↗</i>Career growth</span></label>
+          <label class="direction"><input type="checkbox" value="Financial confidence"><span><i>◈</i>Financial confidence</span></label>
+          <label class="direction"><input type="checkbox" value="Health and energy"><span><i>☼</i>Health and energy</span></label>
+          <label class="direction"><input type="checkbox" value="Friendship and community"><span><i>◎</i>Friendship and community</span></label>
+          <label class="direction"><input type="checkbox" value="Romance and intimacy"><span><i>♡</i>Romance and intimacy</span></label>
+          <label class="direction"><input type="checkbox" value="Learning together"><span><i>◇</i>Learning together</span></label>
+          <label class="direction"><input type="checkbox" value="Family and belonging"><span><i>∞</i>Family and belonging</span></label>
+          <label class="direction"><input type="checkbox" value="Creative collaboration"><span><i>✎</i>Creative collaboration</span></label>
+        </div>
+        <div class="selection-count" id="selectionCount">Choose up to three</div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="passDevice" data-title="Pass the device" aria-labelledby="passTitle">
+      <div class="scene-scroll"><div class="scene-inner pass-device">
+        <div class="seal" aria-hidden="true">003</div>
+        <div class="kicker">First capsule sealed</div>
+        <h2 id="passTitle">Pass the device to <em data-second-name>your partner</em></h2>
+        <p class="lede">The first answers have been removed from the form. When <span data-second-name>your partner</span> is ready and alone with the screen, continue.</p>
+        <div class="btn-row"><button class="btn primary" type="button" data-action="next">I am <span data-second-name>the second traveller</span> · begin my capsule</button></div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="reunion" data-title="Routes converge" aria-labelledby="reunionTitle">
+      <div class="scene-scroll"><div class="scene-inner pass-device">
+        <div class="kicker">Both capsules sealed</div>
+        <h2 id="reunionTitle">Come back <em>together</em></h2>
+        <div class="name-orbit"><span data-name-a>Traveller A</span><i></i><span data-name-b>Traveller B</span></div>
+        <p class="lede">From here, everything is shared. Read slowly. Ask a curious question before explaining a surprising answer.</p>
+        <div class="btn-row"><button class="btn primary" type="button" data-action="next">Begin our reveal <span aria-hidden="true">→</span></button></div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="revealMemories" data-title="Our year in scenes" aria-labelledby="revealMemoriesTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared reveal 01</div>
+        <h2 id="revealMemoriesTitle">The same year, <em>two stories</em></h2>
+        <p class="lede">Notice what you both carried and what only one of you noticed.</p>
+        <div class="reveal-stage" id="memoryReveal"></div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="revealPredictions" data-title="Prediction reveal" aria-labelledby="revealPredictionsTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared reveal 02</div>
+        <h2 id="revealPredictionsTitle">Did you <em>know?</em></h2>
+        <p class="lede">Reveal one card at a time. A match shows attention. A plot twist gives you something new to understand.</p>
+        <div class="prediction-grid" id="predictionReveal"></div>
+        <div class="curiosity-meter" id="curiosityMeter">✦ 0 curiosity stars collected together</div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="revealWants" data-title="More, less, protect" aria-labelledby="revealWantsTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared reveal 03</div>
+        <h2 id="revealWantsTitle">What each of you wants to <em>change and keep</em></h2>
+        <div class="reveal-stage compare-grid" id="wantsReveal"></div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="revealBaggage" data-title="Baggage claim" aria-labelledby="revealBaggageTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared reveal 04</div>
+        <h2 id="revealBaggageTitle">What can travel <em>more lightly?</em></h2>
+        <p class="lede">Only answers marked Share Now appear. Talk Later items remain sealed reminders. Private answers stay private.</p>
+        <div class="reveal-stage" id="baggageReveal"></div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="revealDirections" data-title="Our directions" aria-labelledby="revealDirectionsTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared reveal 05</div>
+        <h2 id="revealDirectionsTitle">Where do your routes <em>meet?</em></h2>
+        <p class="lede">Overlap is useful. Different priorities are useful too. Both show where the next conversation lives.</p>
+        <div class="destination-board" id="directionReveal"></div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="planRituals" data-title="Shared rituals" aria-labelledby="planRitualsTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared flight plan 01</div>
+        <h2 id="planRitualsTitle">Small rhythms that make a <em>life</em></h2>
+        <div class="card grid-2">
+          <div class="field"><label for="weeklyRitual">One weekly ritual</label><textarea id="weeklyRitual" data-plan-field="weeklyRitual" placeholder="For example, a phone free evening walk"></textarea></div>
+          <div class="field"><label for="monthlyDate">One monthly date rhythm</label><textarea id="monthlyDate" data-plan-field="monthlyDate" placeholder="For example, alternate who designs it"></textarea></div>
+          <div class="field"><label for="sharedAdventure">One shared adventure</label><textarea id="sharedAdventure" data-plan-field="sharedAdventure" placeholder="Something slightly outside normal life"></textarea></div>
+          <div class="field"><label for="practicalImprovement">One practical improvement</label><textarea id="practicalImprovement" data-plan-field="practicalImprovement" placeholder="Home, money, health, workload or responsibilities"></textarea></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="planSupport" data-title="Support and protection" aria-labelledby="planSupportTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared flight plan 02</div>
+        <h2 id="planSupportTitle">Help each other grow without <em>disappearing</em></h2>
+        <div class="card">
+          <div class="grid-2">
+            <div class="field"><label for="supportA">How will we support <span data-name-a>Traveller A</span>?</label><textarea id="supportA" data-plan-field="supportA" placeholder="Use their dream or support request as a starting point"></textarea></div>
+            <div class="field"><label for="supportB">How will we support <span data-name-b>Traveller B</span>?</label><textarea id="supportB" data-plan-field="supportB" placeholder="Use their dream or support request as a starting point"></textarea></div>
+          </div>
+          <div class="field"><label for="protectPromise">When life becomes chaotic, we promise to protect…</label><textarea id="protectPromise" data-plan-field="protectPromise" placeholder="A ritual, tone, boundary or way of returning to each other"></textarea></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="planExperiment" data-title="Ninety day experiment" aria-labelledby="planExperimentTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Shared flight plan 03</div>
+        <h2 id="planExperimentTitle">One experiment, <em>small enough to live</em></h2>
+        <p class="lede">Do not redesign the whole relationship. Test one behaviour for ninety days and learn from what happens.</p>
+        <div class="card">
+          <div class="field"><label for="experimentGoal">What do we want this experiment to improve?</label><input id="experimentGoal" type="text" data-plan-field="experimentGoal" placeholder="One clear outcome"></div>
+          <div class="grid-2 grid-spaced">
+            <div class="field"><label for="experimentCue">When this happens…</label><textarea id="experimentCue" data-plan-field="experimentCue" placeholder="A repeatable time, place or situation"></textarea></div>
+            <div class="field"><label for="experimentAction">We will…</label><textarea id="experimentAction" data-plan-field="experimentAction" placeholder="One observable action"></textarea></div>
+            <div class="field"><label for="experimentMinimum">On a difficult week, the minimum version is…</label><textarea id="experimentMinimum" data-plan-field="experimentMinimum" placeholder="Small enough that you can still do it"></textarea></div>
+            <div class="field"><label for="experimentFallback">If we miss it, we will restart by…</label><textarea id="experimentFallback" data-plan-field="experimentFallback" placeholder="A fallback without blame"></textarea></div>
+          </div>
+          <div class="field"><label for="reviewDate">Review date</label><input id="reviewDate" type="date" data-plan-field="reviewDate"></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="timeCapsule" data-title="Time capsule" aria-labelledby="timeCapsuleTitle">
+      <div class="scene-scroll"><div class="scene-inner">
+        <div class="kicker">Before landing</div>
+        <h2 id="timeCapsuleTitle">A letter to your <em>fourth anniversary</em></h2>
+        <p class="lede">Write together. What do you hope your future selves remember about this exact season?</p>
+        <div class="card">
+          <div class="field"><label for="timeCapsuleLetter">Dear us, one year from now…</label><textarea class="tall" id="timeCapsuleLetter" data-letter-field placeholder="We hope you remember…"></textarea></div>
+          <p class="helper">The letter will be included in your private export. Add the review date to your calendar after landing.</p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="scene" id="landing" data-title="Landed together" aria-labelledby="landingTitle">
+      <div class="scene-scroll"><div class="scene-inner wide">
+        <div class="kicker">Flight complete</div>
+        <h2 id="landingTitle">You are still <em>choosing each other</em></h2>
+        <p class="lede">This is a working flight plan, not a final description of your relationship. Review what life confirms, changes or contradicts.</p>
+        <div class="landing-card" id="landingCard"></div>
+        <div class="export-row">
+          <button class="btn primary small" type="button" id="downloadMdBtn">Download landing card</button>
+          <button class="btn small" type="button" id="copyBtn">Copy</button>
+          <button class="btn small" type="button" id="calendarBtn">Add review reminder</button>
+          <button class="btn small" type="button" id="downloadJsonBtn">Export private archive</button>
+          <button class="btn small" type="button" id="printBtn">Print presentation</button>
+          <button class="btn small" type="button" id="replayBtn">Replay shared reveal</button>
+          <button class="btn small" type="button" id="resetBtn">Begin a new flight</button>
+        </div>
+      </div></div>
+    </section>
+  </main>
+
+  <nav class="nav" id="nav" aria-label="Journey navigation">
+    <div class="nav-inner">
+      <button class="btn small back" id="backBtn" type="button">← Back</button>
+      <div class="nav-label" id="navLabel">Boarding</div>
+      <button class="btn small primary next" id="nextBtn" type="button">Continue →</button>
+    </div>
+  </nav>
+</div>
+
+<dialog id="pauseDialog" aria-labelledby="pauseTitle">
+  <div class="dialog-body">
+    <h3 id="pauseTitle">Pause before continuing</h3>
+    <p>If the conversation is becoming defensive, slow down. Name what you feel, ask what the other person meant, or move the topic to Talk Later.</p>
+    <div class="breath" aria-hidden="true"></div>
+    <p class="helper text-center">Breathe in as the circle grows. Breathe out as it softens.</p>
+    <div class="btn-row"><button class="btn primary" type="button" id="closePauseBtn">Continue gently</button><button class="btn" type="button" id="skipToPlanBtn">Move to shared planning</button></div>
+  </div>
+</dialog>
+
+<div class="privacy-curtain" id="privacyCurtain" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+  <div class="privacy-curtain-inner">
+    <div class="privacy-mark" aria-hidden="true">◉</div>
+    <h2 id="privacyTitle">Screen hidden</h2>
+    <p class="lede">Your place is still saved. Continue when the correct person has the device.</p>
+    <div class="btn-row center-row"><button class="btn primary" type="button" id="revealScreenBtn">Reveal screen</button></div>
+  </div>
+</div>
+
+<div class="sr-only" id="liveRegion" aria-live="polite"></div>
+<script src="gsap.min.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  const VERSION='1.0.0';
+  const SESSION_KEY='selfection.us003.session.v1';
+  const DEVICE_KEY='selfection.us003.device.v1';
+  const privateIds=['privateWords','privateMemories','privateInner','privateFuture','privatePredictions','privateBaggage','privateDirections'];
+  const route=[
+    {id:'welcome',phase:'boarding'},
+    {id:'setup',phase:'boarding'},
+    {id:'agreement',phase:'boarding'},
+    ...privateIds.map(id=>({id,phase:'private-a',person:0})),
+    {id:'passDevice',phase:'pass'},
+    ...privateIds.map(id=>({id,phase:'private-b',person:1})),
+    {id:'reunion',phase:'shared'},
+    {id:'revealMemories',phase:'shared'},
+    {id:'revealPredictions',phase:'shared'},
+    {id:'revealWants',phase:'shared'},
+    {id:'revealBaggage',phase:'shared'},
+    {id:'revealDirections',phase:'shared'},
+    {id:'planRituals',phase:'shared'},
+    {id:'planSupport',phase:'shared'},
+    {id:'planExperiment',phase:'shared'},
+    {id:'timeCapsule',phase:'shared'},
+    {id:'landing',phase:'shared'}
+  ];
+  const directions=['Home and stability','Adventure and travel','Career growth','Financial confidence','Health and energy','Friendship and community','Romance and intimacy','Learning together','Family and belonging','Creative collaboration'];
+  const iconMap={'Home and stability':'⌂','Adventure and travel':'✦','Career growth':'↗','Financial confidence':'◈','Health and energy':'☼','Friendship and community':'◎','Romance and intimacy':'♡','Learning together':'◇','Family and belonging':'∞','Creative collaboration':'✎'};
+
+  function personDefaults(){return {
+    words:['','',''],yearSentence:'',
+    memories:{joy:'',hard:'',ordinary:''},
+    inner:{loved:'',hard:'',proud:''},
+    future:{more:'',less:'',protect:'',support:'',dream:''},
+    predictions:{loved:'',more:'',dream:''},
+    baggage:{leave:'',leaveVisibility:'share',responsibility:'',responsibilityVisibility:'share',forgive:'',forgiveVisibility:'share'},
+    directions:[]
+  }}
+  function defaultState(){return {
+    version:VERSION,routeIndex:0,session:{nameA:'',nameB:'',anniversaryDate:'',duration:'90',storage:'session'},
+    people:[personDefaults(),personDefaults()],
+    plan:{weeklyRitual:'',monthlyDate:'',sharedAdventure:'',practicalImprovement:'',supportA:'',supportB:'',protectPromise:'',experimentGoal:'',experimentCue:'',experimentAction:'',experimentMinimum:'',experimentFallback:'',reviewDate:''},
+    letter:'',reactions:{},savedAt:null
+  }}
+
+  let state=defaultState();
+  let activePerson=0;
+  let saveTimer=null;
+  let stableViewportHeight=window.visualViewport?.height||window.innerHeight;
+  const photos=[{},{}];
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $=selector=>document.querySelector(selector);
+  const $$=selector=>Array.from(document.querySelectorAll(selector));
+  const esc=value=>String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const display=value=>esc(value||'Not answered');
+  const nameOf=index=>(index===0?state.session.nameA:state.session.nameB)||('Traveller '+(index+1));
+
+  function getPath(object,path){return path.split('.').reduce((value,key)=>value?.[key],object)}
+  function setPath(object,path,value){
+    const keys=path.split('.');let cursor=object;
+    keys.slice(0,-1).forEach(key=>{if(cursor[key]===undefined)cursor[key]={};cursor=cursor[key]});
+    cursor[keys.at(-1)]=value;
+  }
+  function merge(target,source){
+    if(!source||typeof source!=='object')return target;
+    Object.keys(source).forEach(key=>{
+      if(Array.isArray(source[key]))target[key]=source[key].slice();
+      else if(source[key]&&typeof source[key]==='object')target[key]=merge(target[key]&&typeof target[key]==='object'?target[key]:{},source[key]);
+      else target[key]=source[key];
+    });return target;
+  }
+
+  function createStars(){
+    const wrap=$('#stars');
+    for(let index=0;index<76;index++){
+      const star=document.createElement('span');star.className='star';
+      const size=(Math.random()*1.8+.6).toFixed(1);star.style.width=star.style.height=size+'px';
+      star.style.left=(Math.random()*100).toFixed(2)+'%';star.style.top=(Math.random()*100).toFixed(2)+'%';
+      star.style.setProperty('--twinkle',(3+Math.random()*6).toFixed(1)+'s');star.style.animationDelay=(-Math.random()*7).toFixed(1)+'s';wrap.appendChild(star);
+    }
+  }
+
+  function syncViewport(reset=false){
+    const height=Math.round(window.visualViewport?.height||window.innerHeight);
+    const focused=document.activeElement?.matches?.('input,textarea,select');
+    if(reset||!focused)stableViewportHeight=height;
+    const keyboardOpen=Boolean(focused&&height<stableViewportHeight*.78);
+    document.documentElement.style.setProperty('--app-height',height+'px');
+    document.body.classList.toggle('keyboard-open',keyboardOpen);
+    if(keyboardOpen)setTimeout(()=>document.activeElement?.scrollIntoView?.({block:'center',behavior:reduced?'auto':'smooth'}),80);
+  }
+
+  function routeProgress(){return Math.round((state.routeIndex/(route.length-1))*100)}
+
+  function animateWorld(){
+    const progress=routeProgress()/100;
+    if(!window.gsap)return;
+    gsap.to('.sky-a',{xPercent:(progress*14)-4,yPercent:progress*-5,rotation:progress*2,duration:1.1,ease:'power2.out'});
+    gsap.to('.sky-b',{xPercent:progress*-12,yPercent:progress*5,rotation:progress*-2,duration:1.1,ease:'power2.out'});
+    gsap.to('.orb',{scale:.86+progress*.25,rotation:progress*36,duration:1.2,ease:'power2.out'});
+    const privateProgress=Math.min(1,state.routeIndex/17);
+    const sharedProgress=Math.max(0,(state.routeIndex-18)/(route.length-19));
+    ['routeA','routeB'].forEach(id=>{
+      const path=document.getElementById(id);const length=path.getTotalLength?.()||900;
+      path.style.strokeDasharray='3 13';path.style.opacity=String(.35+privateProgress*.5);
+      const point=path.getPointAtLength?.(length*privateProgress);
+      const dot=document.getElementById(id==='routeA'?'planeA':'planeB');if(point){dot.setAttribute('cx',point.x);dot.setAttribute('cy',point.y)}
+    });
+    const shared=$('#routeShared');shared.style.opacity=String(.15+sharedProgress*.75);
+    const sharedLength=shared.getTotalLength?.()||500;const sharedPoint=shared.getPointAtLength?.(sharedLength*sharedProgress);
+    if(sharedPoint){$('#planeShared').setAttribute('cx',sharedPoint.x);$('#planeShared').setAttribute('cy',sharedPoint.y);$('#planeShared').style.opacity=sharedProgress>0?1:0}
+  }
+
+  function sceneTransition(from,to,direction){
+    if(!window.gsap||reduced){
+      if(from){from.classList.remove('active');from.setAttribute('aria-hidden','true');from.inert=true}
+      to.classList.add('active');to.removeAttribute('aria-hidden');to.inert=false;return Promise.resolve();
+    }
+    return new Promise(resolve=>{
+      const timeline=gsap.timeline({defaults:{ease:'power3.inOut'},onComplete:resolve});
+      if(from)timeline.to(from,{autoAlpha:0,scale:.965,y:direction>0?-22:22,duration:.36}).set(from,{display:'none'});
+      timeline.set(to,{display:'block',autoAlpha:0,scale:1.025,y:direction>0?34:-34,clipPath:direction>0?'inset(8% 0 0 0 round 28px)':'inset(0 0 8% 0 round 28px)'})
+        .to(to,{autoAlpha:1,scale:1,y:0,clipPath:'inset(0% 0 0% 0 round 0px)',duration:.58,ease:'expo.out'});
+    });
+  }
+
+  async function goTo(index,{focus=true,save=true}={}){
+    index=Math.max(0,Math.min(index,route.length-1));
+    if(index===state.routeIndex&&$('#'+route[index].id).classList.contains('active')){renderRoute();return}
+    const previousIndex=state.routeIndex;const from=$('.scene.active');const entry=route[index];
+    state.routeIndex=index;if(Number.isInteger(entry.person))activePerson=entry.person;
+    loadDynamicInputs();renderRoute();
+    const to=$('#'+entry.id);to.classList.add('active');to.removeAttribute('aria-hidden');to.inert=false;
+    await sceneTransition(from===to?null:from,to,index>=previousIndex?1:-1);
+    if(from&&from!==to){from.classList.remove('active');from.setAttribute('aria-hidden','true');from.inert=true;from.style.display=''}
+    to.querySelector('.scene-scroll')?.scrollTo?.({top:0,behavior:'auto'});
+    if(focus)setTimeout(()=>to.querySelector('h1,h2')?.focus?.({preventScroll:true}),30);
+    if(save)scheduleSave();
+  }
+
+  function renderRoute(){
+    const entry=route[state.routeIndex];document.body.dataset.phase=entry.phase;
+    $('#phaseLabel').textContent=$('#'+entry.id).dataset.title||'Flight US 003';
+    $('#navLabel').textContent=(state.routeIndex+1)+' of '+route.length+' · '+($('#'+entry.id).dataset.title||'');
+    $('#journeyProgress').value=routeProgress();$('#journeyProgress').textContent=routeProgress()+'%';
+    const customControl=['welcome','passDevice','reunion','landing'].includes(entry.id);
+    $('#nav').classList.toggle('show',!customControl);
+    const blockedBack=[0,10,11,18].includes(state.routeIndex);
+    $('#backBtn').disabled=blockedBack;$('#backBtn').style.visibility=blockedBack?'hidden':'visible';
+    $('#nextBtn').textContent=entry.id==='privateDirections'?(activePerson===0?'Seal my capsule →':'Seal and reunite →'):(entry.id==='timeCapsule'?'Create our landing card →':'Continue →');
+    $$('[data-active-name]').forEach(el=>el.textContent=nameOf(activePerson));
+    $$('[data-partner-name]').forEach(el=>el.textContent=nameOf(activePerson===0?1:0));
+    $$('[data-name-a]').forEach(el=>el.textContent=nameOf(0));$$('[data-name-b]').forEach(el=>el.textContent=nameOf(1));
+    $$('[data-second-name]').forEach(el=>el.textContent=nameOf(1));
+    if(entry.id==='revealMemories')renderMemories();
+    if(entry.id==='revealPredictions')renderPredictions();
+    if(entry.id==='revealWants')renderWants();
+    if(entry.id==='revealBaggage')renderBaggage();
+    if(entry.id==='revealDirections')renderDirections();
+    if(entry.id==='landing')renderLanding();
+    animateWorld();
+  }
+
+  function loadDynamicInputs(){
+    $$('[data-session-field]').forEach(input=>{
+      const value=state.session[input.dataset.sessionField]??'';
+      if(input.type==='radio')input.checked=input.value===String(value);else input.value=value;
+    });
+    $$('[data-person-field]').forEach(input=>{input.value=getPath(state.people[activePerson],input.dataset.personField)??''});
+    $$('[data-plan-field]').forEach(input=>{input.value=state.plan[input.dataset.planField]??''});
+    $('[data-letter-field]').value=state.letter||'';
+    $$('#directionGrid input').forEach(input=>{input.checked=state.people[activePerson].directions.includes(input.value)});updateDirectionLimit();
+    ['joy','hard','ordinary'].forEach(type=>{
+      const input=$('[data-photo="'+type+'"]');const label=input?.nextElementSibling;const image=label?.querySelector('img');
+      if(photos[activePerson][type]){image.src=photos[activePerson][type];label.classList.add('has-photo')}else{if(image)image.removeAttribute('src');label?.classList.remove('has-photo')}
+    });
+  }
+
+  function updateNames(){
+    $$('[data-name-a]').forEach(el=>el.textContent=nameOf(0));$$('[data-name-b]').forEach(el=>el.textContent=nameOf(1));
+    $$('[data-second-name]').forEach(el=>el.textContent=nameOf(1));
+  }
+
+  function handlePhoto(input){
+    const file=input.files?.[0];if(!file)return;
+    if(!file.type.startsWith('image/'))return;
+    if(file.size>12*1024*1024){alert('Choose an image smaller than 12 MB.');input.value='';return}
+    const previous=photos[activePerson][input.dataset.photo];if(previous)URL.revokeObjectURL(previous);
+    const url=URL.createObjectURL(file);photos[activePerson][input.dataset.photo]=url;
+    const label=input.nextElementSibling;label.querySelector('img').src=url;label.classList.add('has-photo');
+  }
+
+  function updateDirectionLimit(){
+    const selected=state.people[activePerson].directions;
+    $$('#directionGrid input').forEach(input=>{input.disabled=selected.length>=3&&!selected.includes(input.value);input.checked=selected.includes(input.value)});
+    $('#selectionCount').textContent=selected.length+'/3 directions selected';
+  }
+
+  function bindInputs(){
+    $$('[data-session-field]').forEach(input=>input.addEventListener(input.type==='radio'?'change':'input',()=>{
+      if(input.type==='radio'&&!input.checked)return;state.session[input.dataset.sessionField]=input.value;updateNames();scheduleSave();
+      if(input.dataset.sessionField==='storage'&&input.value==='device')navigator.storage?.persist?.().catch(()=>{});
+    }));
+    $$('[data-person-field]').forEach(input=>input.addEventListener(input.tagName==='SELECT'?'change':'input',()=>{setPath(state.people[activePerson],input.dataset.personField,input.value);scheduleSave()}));
+    $$('[data-plan-field]').forEach(input=>input.addEventListener('input',()=>{state.plan[input.dataset.planField]=input.value;scheduleSave()}));
+    $('[data-letter-field]').addEventListener('input',event=>{state.letter=event.target.value;scheduleSave()});
+    $$('[data-photo]').forEach(input=>input.addEventListener('change',()=>handlePhoto(input)));
+    $$('#directionGrid input').forEach(input=>input.addEventListener('change',()=>{
+      const selected=state.people[activePerson].directions;
+      if(input.checked&&!selected.includes(input.value)&&selected.length<3)selected.push(input.value);
+      if(!input.checked)state.people[activePerson].directions=selected.filter(value=>value!==input.value);
+      updateDirectionLimit();scheduleSave();
+    }));
+  }
+
+  function renderMemories(){
+    const labels={joy:'Joyful moment',hard:'Difficult moment',ordinary:'Beautifully ordinary'};
+    $('#memoryReveal').innerHTML=state.people.map((person,index)=>'<article class="person-panel '+(index===0?'a':'b')+'"><div class="person-name">'+esc(nameOf(index))+'</div><div class="word-cloud">'+person.words.filter(Boolean).map(word=>'<span>'+esc(word)+'</span>').join('')+'</div><p>'+display(person.yearSentence)+'</p><div class="memory-reveal-grid">'+Object.keys(labels).map(key=>'<div class="memory-reveal">'+(photos[index][key]?'<img src="'+esc(photos[index][key])+'" alt="'+esc(labels[key])+' selected by '+esc(nameOf(index))+'">':'')+'<small>'+labels[key]+'</small><div>'+display(person.memories[key])+'</div></div>').join('')+'</div></article>').join('');
+    animateCards('#memoryReveal .person-panel');
+  }
+
+  function predictionItems(){return [
+    {key:'a-loved',asker:0,subject:1,label:'When did they feel most loved?',prediction:state.people[0].predictions.loved,actual:state.people[1].inner.loved},
+    {key:'b-loved',asker:1,subject:0,label:'When did they feel most loved?',prediction:state.people[1].predictions.loved,actual:state.people[0].inner.loved},
+    {key:'a-more',asker:0,subject:1,label:'What do they want more of?',prediction:state.people[0].predictions.more,actual:state.people[1].future.more},
+    {key:'b-more',asker:1,subject:0,label:'What do they want more of?',prediction:state.people[1].predictions.more,actual:state.people[0].future.more},
+    {key:'a-dream',asker:0,subject:1,label:'Which dream matters more now?',prediction:state.people[0].predictions.dream,actual:state.people[1].future.dream},
+    {key:'b-dream',asker:1,subject:0,label:'Which dream matters more now?',prediction:state.people[1].predictions.dream,actual:state.people[0].future.dream}
+  ]}
+
+  function renderPredictions(){
+    $('#predictionReveal').innerHTML=predictionItems().map(item=>'<article class="prediction-card '+(state.reactions[item.key]?'revealed':'')+'" data-prediction="'+item.key+'"><div class="prediction-label">'+esc(nameOf(item.asker))+' predicted about '+esc(nameOf(item.subject))+'</div><div class="prediction-text">'+display(item.prediction)+'</div><div class="prediction-label">What '+esc(nameOf(item.subject))+' actually wrote</div><div class="actual-wrap"><div class="prediction-text">'+display(item.actual)+'</div></div><div class="btn-row"><button class="btn small reveal-prediction" type="button">Reveal answer</button></div><div class="reaction-row"><button class="reaction '+(state.reactions[item.key]==='knew'?'selected':'')+'" data-reaction="knew" type="button">You knew me</button><button class="reaction '+(state.reactions[item.key]==='close'?'selected':'')+'" data-reaction="close" type="button">Close</button><button class="reaction '+(state.reactions[item.key]==='twist'?'selected':'')+'" data-reaction="twist" type="button">Plot twist</button></div></article>').join('');
+    updateCuriosity();animateCards('#predictionReveal .prediction-card');
+  }
+
+  function updateCuriosity(){const count=Object.keys(state.reactions).length;$('#curiosityMeter').textContent='✦ '+count+' curiosity star'+(count===1?'':'s')+' collected together'}
+
+  function renderWants(){
+    const items=[['More','more'],['Less','less'],['Protect','protect'],['Support I need','support'],['A personal dream','dream']];
+    $('#wantsReveal').innerHTML=state.people.map((person,index)=>'<article class="person-panel '+(index===0?'a':'b')+'"><div class="person-name">'+esc(nameOf(index))+'</div>'+items.map(([label,key])=>'<div class="compare-item"><small>'+label+'</small><div>'+display(person.future[key])+'</div></div>').join('')+'</article>').join('');
+    animateCards('#wantsReveal .compare-item');
+  }
+
+  function renderBaggage(){
+    const items=[['Leave behind','leave','leaveVisibility'],['My responsibility','responsibility','responsibilityVisibility'],['Forgive, repair or soften','forgive','forgiveVisibility']];
+    $('#baggageReveal').innerHTML=state.people.map((person,index)=>{
+      const shared=items.filter(([,key,visibility])=>person.baggage[visibility]==='share'&&person.baggage[key]);
+      const later=items.filter(([,key,visibility])=>person.baggage[visibility]==='later'&&person.baggage[key]).length;
+      return '<article class="person-panel '+(index===0?'a':'b')+'"><div class="person-name">'+esc(nameOf(index))+'</div><div class="stack">'+(shared.length?shared.map(([label,key])=>'<div class="compare-item"><small>'+label+'</small><div>'+display(person.baggage[key])+'</div></div>').join(''):'<div class="sealed-note">No Share Now answers in this capsule.</div>')+(later?'<div class="sealed-note">◌ '+later+' topic'+(later===1?' is':'s are')+' sealed for a later conversation.</div>':'')+'</div></article>';
+    }).join('');animateCards('#baggageReveal .compare-item, #baggageReveal .sealed-note');
+  }
+
+  function renderDirections(){
+    const a=state.people[0].directions,b=state.people[1].directions,shared=a.filter(value=>b.includes(value));
+    const list=values=>values.length?'<ul>'+values.map(value=>'<li>'+esc(iconMap[value]||'')+' '+esc(value)+'</li>').join('')+'</ul>':'<p class="helper">No directions selected.</p>';
+    $('#directionReveal').innerHTML='<article class="destination-column"><div class="person-name">'+esc(nameOf(0))+'</div>'+list(a)+'</article><article class="destination-column shared"><div class="person-name">Shared sky</div>'+list(shared)+'</article><article class="destination-column"><div class="person-name">'+esc(nameOf(1))+'</div>'+list(b)+'</article>';
+    animateCards('#directionReveal .destination-column');
+  }
+
+  function animateCards(selector){if(window.gsap&&!reduced)gsap.fromTo(selector,{autoAlpha:0,y:22,scale:.98},{autoAlpha:1,y:0,scale:1,duration:.55,stagger:.08,ease:'power3.out',delay:.12})}
+
+  function sharedDirections(){return state.people[0].directions.filter(value=>state.people[1].directions.includes(value))}
+
+  function landingData(){return {
+    names:nameOf(0)+' + '+nameOf(1),date:state.session.anniversaryDate||new Date().toLocaleDateString(),
+    wordsA:state.people[0].words.filter(Boolean).join(' · ')||'Not answered',wordsB:state.people[1].words.filter(Boolean).join(' · ')||'Not answered',
+    sharedDirections:sharedDirections().join(', ')||'No exact overlap selected',
+    weekly:state.plan.weeklyRitual||'Not defined',monthly:state.plan.monthlyDate||'Not defined',adventure:state.plan.sharedAdventure||'Not defined',practical:state.plan.practicalImprovement||'Not defined',
+    supportA:state.plan.supportA||'Not defined',supportB:state.plan.supportB||'Not defined',protect:state.plan.protectPromise||'Not defined',
+    experiment:(state.plan.experimentCue&&state.plan.experimentAction)?'When '+state.plan.experimentCue+', we will '+state.plan.experimentAction+'.':'Not defined',
+    minimum:state.plan.experimentMinimum||'Not defined',fallback:state.plan.experimentFallback||'Not defined',review:state.plan.reviewDate||'Not scheduled',letter:state.letter||'Not written',stars:Object.keys(state.reactions).length
+  }}
+
+  function renderLanding(){
+    const data=landingData();const item=(label,value,full=false)=>'<div class="landing-item'+(full?' full':'')+'"><div class="landing-label">'+esc(label)+'</div><div class="landing-value">'+esc(value)+'</div></div>';
+    $('#landingCard').innerHTML='<div class="landing-head"><h3>Flight <em>US 003</em></h3><div class="stamp">'+esc(data.names)+'<br>'+esc(data.date)+'<br>'+data.stars+' curiosity stars</div></div><div class="landing-grid">'+item(nameOf(0)+' in three words',data.wordsA)+item(nameOf(1)+' in three words',data.wordsB)+item('Shared directions',data.sharedDirections,true)+item('Weekly ritual',data.weekly)+item('Monthly date rhythm',data.monthly)+item('Shared adventure',data.adventure)+item('Practical improvement',data.practical)+item('Supporting '+nameOf(0),data.supportA)+item('Supporting '+nameOf(1),data.supportB)+item('What we protect',data.protect,true)+item('Our ninety day experiment',data.experiment,true)+item('Minimum version',data.minimum)+item('How we restart',data.fallback)+item('Review date',data.review)+item('Letter to year four',data.letter,true)+'</div>';
+    animateCards('#landingCard .landing-item');
+  }
+
+  function landingMarkdown(){
+    const d=landingData();return '# Flight US 003\n\n'+d.names+' · '+d.date+'\n\n## Our year in three words\n\n'+nameOf(0)+': '+d.wordsA+'\n\n'+nameOf(1)+': '+d.wordsB+'\n\n## Shared directions\n\n'+d.sharedDirections+'\n\n## Our flight plan\n\nWeekly ritual: '+d.weekly+'\n\nMonthly date rhythm: '+d.monthly+'\n\nShared adventure: '+d.adventure+'\n\nPractical improvement: '+d.practical+'\n\nSupporting '+nameOf(0)+': '+d.supportA+'\n\nSupporting '+nameOf(1)+': '+d.supportB+'\n\nWhat we protect: '+d.protect+'\n\n## Ninety day experiment\n\n'+d.experiment+'\n\nMinimum version: '+d.minimum+'\n\nHow we restart: '+d.fallback+'\n\nReview date: '+d.review+'\n\n## Letter to year four\n\n'+d.letter+'\n\n> This is a working flight plan, not a score or final description of our relationship.\n'}
+
+  function cleanState(){const copy=JSON.parse(JSON.stringify(state));copy.savedAt=Date.now();return copy}
+  function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveState,260)}
+  function saveState(){
+    state.savedAt=Date.now();const raw=JSON.stringify(cleanState());
+    try{
+      if(state.session.storage==='device'){localStorage.setItem(DEVICE_KEY,raw);sessionStorage.removeItem(SESSION_KEY)}
+      else if(state.session.storage==='session'){sessionStorage.setItem(SESSION_KEY,raw);localStorage.removeItem(DEVICE_KEY)}
+      else{localStorage.removeItem(DEVICE_KEY);sessionStorage.removeItem(SESSION_KEY)}
+    }catch(error){}
+  }
+  function savedState(){
+    let deviceRaw=null,sessionRaw=null;
+    try{deviceRaw=localStorage.getItem(DEVICE_KEY)}catch(error){}
+    try{sessionRaw=sessionStorage.getItem(SESSION_KEY)}catch(error){}
+    for(const raw of [deviceRaw,sessionRaw]){
+      if(!raw)continue;try{const parsed=JSON.parse(raw);if(parsed.version===VERSION)return parsed}catch(error){}
+    }return null;
+  }
+  function clearSaved(){try{localStorage.removeItem(DEVICE_KEY);sessionStorage.removeItem(SESSION_KEY)}catch(error){}}
+
+  async function download(name,content,type){
+    const blob=new Blob([content],{type});const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+    if(standalone&&typeof File==='function'&&navigator.canShare){const file=new File([blob],name,{type});if(navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:name});return}catch(error){if(error?.name==='AbortError')return}}}
+    const url=URL.createObjectURL(blob);const anchor=document.createElement('a');anchor.href=url;anchor.download=name;document.body.appendChild(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  async function copyText(text,button){
+    try{await navigator.clipboard.writeText(text)}catch(error){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}
+    const original=button.textContent;button.textContent='Copied';setTimeout(()=>button.textContent=original,1500);
+  }
+  function calendarFile(){
+    let date=state.plan.reviewDate?new Date(state.plan.reviewDate+'T10:00:00'):new Date();if(!state.plan.reviewDate)date.setDate(date.getDate()+90);const end=new Date(date.getTime()+30*60000);const stamp=value=>value.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+    return 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Selfection//Flight US 003//EN\r\nBEGIN:VEVENT\r\nUID:'+Date.now()+'@selfection\r\nDTSTAMP:'+stamp(new Date())+'\r\nDTSTART:'+stamp(date)+'\r\nDTEND:'+stamp(end)+'\r\nSUMMARY:Review our Flight US 003 plan\r\nDESCRIPTION:Review what life confirmed, changed or contradicted in our anniversary flight plan.\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n';
+  }
+
+  function registerOffline(){
+    const status=$('#offlineStatus');
+    if(location.protocol==='file:'){status.textContent='Standalone · offline';return}
+    if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{status.textContent='Ready offline'}).catch(()=>{status.textContent='Open online once'});
+  }
+
+  function bindEvents(){
+    document.addEventListener('click',event=>{
+      const action=event.target.closest('[data-action]')?.dataset.action;
+      if(action==='next')goTo(state.routeIndex+1);
+      const reveal=event.target.closest('.reveal-prediction');
+      if(reveal){const card=reveal.closest('.prediction-card');card.classList.add('revealed');reveal.remove();if(window.gsap&&!reduced)gsap.fromTo(card.querySelector('.actual-wrap'),{rotationY:80,autoAlpha:0},{rotationY:0,autoAlpha:1,duration:.65,ease:'back.out(1.5)'})}
+      const reaction=event.target.closest('.reaction');
+      if(reaction){const card=reaction.closest('.prediction-card');state.reactions[card.dataset.prediction]=reaction.dataset.reaction;card.querySelectorAll('.reaction').forEach(item=>item.classList.toggle('selected',item===reaction));updateCuriosity();scheduleSave()}
+    });
+    $('#nextBtn').addEventListener('click',()=>goTo(state.routeIndex+1));$('#backBtn').addEventListener('click',()=>goTo(state.routeIndex-1));
+    $('#privacyBtn').addEventListener('click',()=>{$('#privacyCurtain').classList.add('show');$('#revealScreenBtn').focus()});
+    $('#revealScreenBtn').addEventListener('click',()=>{$('#privacyCurtain').classList.remove('show');$('.scene.active h1,.scene.active h2')?.focus?.()});
+    $('#pauseBtn').addEventListener('click',()=>$('#pauseDialog').showModal());$('#closePauseBtn').addEventListener('click',()=>$('#pauseDialog').close());
+    $('#skipToPlanBtn').addEventListener('click',()=>{$('#pauseDialog').close();goTo(route.findIndex(item=>item.id==='planRituals'))});
+    $('#resumeBtn').addEventListener('click',()=>{const saved=savedState();if(saved){state=merge(defaultState(),saved);loadDynamicInputs();goTo(state.routeIndex,{focus:false,save:false})}});
+    $('#freshBtn').addEventListener('click',()=>{clearSaved();state=defaultState();$('#resumeBox').classList.remove('show');loadDynamicInputs();goTo(0,{focus:false,save:false})});
+    $('#downloadMdBtn').addEventListener('click',()=>download('flight-us-003-landing-card.md',landingMarkdown(),'text/markdown;charset=utf-8'));
+    $('#downloadJsonBtn').addEventListener('click',()=>download('flight-us-003-private-archive.json',JSON.stringify(cleanState(),null,2),'application/json;charset=utf-8'));
+    $('#copyBtn').addEventListener('click',event=>copyText(landingMarkdown(),event.currentTarget));
+    $('#calendarBtn').addEventListener('click',()=>download('review-flight-us-003.ics',calendarFile(),'text/calendar;charset=utf-8'));
+    $('#printBtn').addEventListener('click',()=>window.print());
+    $('#replayBtn').addEventListener('click',()=>goTo(route.findIndex(item=>item.id==='revealMemories')));
+    $('#resetBtn').addEventListener('click',()=>{if(confirm('Begin a new anniversary flight? Export anything you want to keep first.')){clearSaved();location.reload()}});
+    document.addEventListener('keydown',event=>{
+      if(event.target.matches('input,textarea,select')||$('#privacyCurtain').classList.contains('show')||$('#pauseDialog').open)return;
+      if(event.key==='ArrowRight'&&state.routeIndex<route.length-1)goTo(state.routeIndex+1);
+      if(event.key==='ArrowLeft'&&!$('#backBtn').disabled)goTo(state.routeIndex-1);
+    });
+    let touchStart=null;
+    document.addEventListener('touchstart',event=>{if(event.target.closest('input,textarea,select,label,button,a'))return;touchStart={x:event.changedTouches[0].clientX,y:event.changedTouches[0].clientY}},{passive:true});
+    document.addEventListener('touchend',event=>{if(!touchStart)return;const dx=event.changedTouches[0].clientX-touchStart.x,dy=event.changedTouches[0].clientY-touchStart.y;touchStart=null;if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.35)return;if(dx<0&&state.routeIndex<route.length-1)goTo(state.routeIndex+1);if(dx>0&&!$('#backBtn').disabled)goTo(state.routeIndex-1)},{passive:true});
+    document.addEventListener('focusin',event=>{if(event.target.matches('input,textarea,select')){document.body.classList.add('low-power');syncViewport();setTimeout(syncViewport,320)}});
+    document.addEventListener('focusout',event=>{if(event.target.matches('input,textarea,select'))setTimeout(()=>{document.body.classList.remove('low-power');syncViewport(true)},320)});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)saveState()});window.addEventListener('pagehide',saveState);
+    window.visualViewport?.addEventListener('resize',()=>syncViewport());window.addEventListener('resize',()=>{if(!window.visualViewport)syncViewport(true)});window.addEventListener('orientationchange',()=>setTimeout(()=>syncViewport(true),350));
+  }
+
+  createStars();syncViewport(true);bindInputs();bindEvents();registerOffline();
+  $$('.scene h1,.scene h2').forEach(heading=>heading.tabIndex=-1);
+  $$('.scene').forEach((scene,index)=>{if(index){scene.setAttribute('aria-hidden','true');scene.inert=true}});
+  const previous=savedState();if(previous){$('#resumeBox').classList.add('show')}
+  loadDynamicInputs();renderRoute();
+})();
+</script>
+</body>
+</html>

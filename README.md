@@ -6,6 +6,10 @@ A tool that helps you reflect on yourself and understand yourself more deeply in
 
 Night Flight is a private guided reflection designed for a quiet period without reliable internet. It helps a user turn one live question into a working hypothesis, a boundary and one seven day behaviour experiment.
 
+## Couples anniversary mode
+
+Flight US 003 is available at `flight-us-003/`. It uses two sealed private capsules, shared animated reveals and one collaborative anniversary flight plan. The root boarding screen links directly to it.
+
 ## Deploy on GitHub Pages
 
 1. Create a repository and copy the contents of this folder into its root.
