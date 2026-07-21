@@ -83,13 +83,13 @@ a{color:var(--gold)}
 .scenes{position:relative;height:100%}
 .scene{position:absolute;inset:0;visibility:hidden;opacity:0;pointer-events:none;padding:108px max(22px,env(safe-area-inset-right)) calc(100px + env(safe-area-inset-bottom)) max(22px,env(safe-area-inset-left));overflow:hidden}
 .scene.active{visibility:visible;opacity:1;pointer-events:auto}
-.scene-scroll{width:100%;height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
-.scene-inner{width:min(850px,100%);min-height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;padding:26px 0}
+.scene-scroll{width:100%;height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent;display:flex;flex-direction:column}
+.scene-inner{width:min(850px,100%);margin:auto;display:flex;flex-direction:column;padding:26px 0;flex:0 0 auto}
 .scene-inner.wide{width:min(1100px,100%)}
 .scene-inner.hero{align-items:flex-start}
 .kicker{display:flex;flex-wrap:wrap;align-items:center;gap:9px 16px;margin:0 0 14px;color:var(--gold);font:600 10px/1.5 var(--mono);letter-spacing:.17em;text-transform:uppercase}
 .kicker::before{content:"";width:32px;height:1px;background:currentColor}
-h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance;overflow-wrap:break-word}
 h1{font-size:clamp(54px,10vw,116px);letter-spacing:-.045em}
 h2{font-size:clamp(41px,7vw,76px);letter-spacing:-.035em}
 h3{font-size:clamp(25px,4vw,38px)}
@@ -263,9 +263,9 @@ body.low-power .card{background:var(--sf-surface)}
   .top-row{grid-template-columns:1fr auto}.phase{display:none}
   .utility{top:62px}
   .scene{padding-top:96px;padding-left:max(15px,env(safe-area-inset-left));padding-right:max(15px,env(safe-area-inset-right));padding-bottom:calc(94px + env(safe-area-inset-bottom))}
-  .scene-inner{justify-content:flex-start;padding-top:18px}
-  h1{font-size:clamp(50px,17vw,78px)}
-  h2{font-size:clamp(39px,12vw,58px)}
+  .scene-inner{padding-top:18px}
+  h1{font-size:clamp(42px,13vw,66px)}
+  h2{font-size:clamp(33px,9.6vw,50px)}
   .card{margin-top:21px;border-radius:20px;padding:19px}
   .grid-2,.compare-grid,.prediction-grid,.destination-board{grid-template-columns:1fr}
   .word-grid{grid-template-columns:1fr}
@@ -864,7 +864,7 @@ body.low-power .card{background:var(--sf-surface)}
   }
 
   function sceneTransition(from,to,direction){
-    if(!window.gsap||reduced){
+    if(!window.gsap){
       if(from){from.classList.remove('active');from.setAttribute('aria-hidden','true');from.inert=true}
       to.classList.add('active');to.removeAttribute('aria-hidden');to.inert=false;return Promise.resolve();
     }
@@ -873,10 +873,18 @@ body.low-power .card{background:var(--sf-surface)}
       const settle=()=>{if(settled)return;settled=true;resolve()};
       activeSceneContext?.revert();
       activeSceneContext=gsap.context(()=>{
-        activeTransitionTimeline=gsap.timeline({defaults:{ease:'power3.inOut',overwrite:'auto'},onComplete:settle,onInterrupt:settle});
-        if(from)activeTransitionTimeline.to(from,{autoAlpha:0,scale:.98,y:direction>0?-18:18,duration:.28},0);
-        activeTransitionTimeline.set(to,{display:'block',autoAlpha:0,scale:1.018,y:direction>0?28:-28,clipPath:direction>0?'inset(6% 0 0 0 round 24px)':'inset(0 0 6% 0 round 24px)'},from ? .08 : 0)
-          .to(to,{autoAlpha:1,scale:1,y:0,clipPath:'inset(0% 0 0% 0 round 0px)',duration:.46,ease:'expo.out'},from ? .08 : 0);
+        activeTransitionTimeline=gsap.timeline({defaults:{overwrite:'auto'},onComplete:settle,onInterrupt:settle});
+        if(reduced){
+          // Reduce Motion: a gentle opacity crossfade rather than an instant jump (no transforms).
+          if(from)activeTransitionTimeline.to(from,{autoAlpha:0,duration:.2,ease:'power1.out'},0);
+          activeTransitionTimeline.set(to,{display:'block',autoAlpha:0},from?.06:0)
+            .to(to,{autoAlpha:1,duration:.3,ease:'power1.out'},from?.06:0);
+        }else{
+          // Full motion: an outgoing lift and an incoming glide, so the change reads as travel, not a cut.
+          if(from)activeTransitionTimeline.to(from,{autoAlpha:0,y:direction>0?-40:40,scale:.96,duration:.32,ease:'power2.in'},0);
+          activeTransitionTimeline.set(to,{display:'block',autoAlpha:0,y:direction>0?54:-54,scale:.985},from?.1:0)
+            .to(to,{autoAlpha:1,y:0,scale:1,duration:.62,ease:'power3.out'},from?.1:0);
+        }
       });
     });
   }
