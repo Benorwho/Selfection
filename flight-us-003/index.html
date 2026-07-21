@@ -17,7 +17,7 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="tokens.css">
-<script>document.documentElement.className='js';</script>
+<script>document.documentElement.className='js';try{var t=localStorage.getItem('selfection.us003.theme.v1');if(t==='night'||t==='day')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
 :root{
   --ink:var(--sf-canvas);
@@ -783,6 +783,7 @@ body.low-power .card{background:var(--sf-surface)}
     button.setAttribute('aria-pressed',String(resolved==='night'));
     button.setAttribute('aria-label',resolved==='night'?'Switch to day cabin':'Switch to night cabin');
     document.querySelector('meta[name="theme-color"]').content=resolved==='night'?'#0d1014':'#f1ece2';
+    try{localStorage.setItem('selfection.us003.theme.v1',resolved)}catch(error){}
   }
 
   function routeProgress(){return Math.round((state.routeIndex/(route.length-1))*100)}
@@ -1133,6 +1134,7 @@ body.low-power .card{background:var(--sf-surface)}
   $$('.scene h1,.scene h2').forEach(heading=>heading.tabIndex=-1);
   $$('.scene').forEach((scene,index)=>{if(index){scene.setAttribute('aria-hidden','true');scene.inert=true}});
   const previous=savedState();if(previous){$('#resumeBox').classList.add('show')}
+  state.session.theme=document.documentElement.dataset.theme==='night'?'night':'day';
   loadDynamicInputs();renderRoute();
 })();
 </script>
